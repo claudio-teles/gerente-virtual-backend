@@ -44,6 +44,9 @@
 <!--    Names the annotated entity class -->
 		<mapping class="main.java.modelo.config.Config"/>
 		<mapping class="main.java.modelo.identificacao.Identificacao"/>
+		<mapping class="main.java.modelo.contato.Contato"/>
+		<mapping class="main.java.modelo.endereco.Endereco"/>
+		<mapping class="main.java.modelo.fornecedor.Fornecedor"/>
 
 
     </session-factory>
