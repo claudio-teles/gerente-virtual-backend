@@ -42,7 +42,7 @@
         <property name="hbm2ddl.auto">update</property>
 
 <!--    Names the annotated entity class -->
-<!-- 		<mapping class="modelo.identificacao.Identificacao"/> -->
+		<mapping class="modelo.config.Config"/>
 
 
     </session-factory>
