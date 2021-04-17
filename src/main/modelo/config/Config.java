@@ -1,4 +1,4 @@
-package modelo.config;
+package main.modelo.config;
 
 import java.io.Serializable;
 
@@ -8,11 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import enumeracao.Setor;
-import enumeracao.SubSetorComercio;
-import enumeracao.SubSetorManutencao;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import main.java.enumeracao.Setor;
+import main.java.enumeracao.SubSetorComercio;
+import main.java.enumeracao.SubSetorManutencao;
 
 @NoArgsConstructor
 @Data

@@ -1,4 +1,4 @@
-package enumeracao;
+package main.java.enumeracao;
 
 public enum SubSetorManutencao {
 	

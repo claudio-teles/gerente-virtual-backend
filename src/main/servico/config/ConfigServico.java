@@ -1,12 +1,12 @@
-package servico.config;
+package main.servico.config;
 
 import java.io.Serializable;
 
 import org.hibernate.Session;
 
-import interfaces.config.IConfig;
-import modelo.config.Config;
-import sessao.Sessao;
+import main.interfaces.config.IConfig;
+import main.modelo.config.Config;
+import main.sessao.Sessao;
 
 public class ConfigServico implements IConfig {
 

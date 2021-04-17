@@ -1,4 +1,4 @@
-package sessao;
+package main.sessao;
 
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;

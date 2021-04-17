@@ -3,14 +3,18 @@ package test.java;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
-import enumeracao.Setor;
-import enumeracao.SubSetorComercio;
-import enumeracao.SubSetorManutencao;
-import modelo.config.Config;
-import servico.config.ConfigServico;
+import main.java.enumeracao.Setor;
+import main.java.enumeracao.SubSetorComercio;
+import main.java.enumeracao.SubSetorManutencao;
+import main.modelo.config.Config;
+import main.servico.config.ConfigServico;
 
+@TestMethodOrder(OrderAnnotation.class)
 class T01ConfigTests {
 	
 	private Config configComercio;
@@ -28,13 +32,15 @@ class T01ConfigTests {
 	}
 
 	@Test
-	void test01Comercio() {
+	@Order(1)
+	void testCriarComercio() {
 		assertEquals(1L, new ConfigServico().criarConfig(configComercio));
 	}
 	
 	@Test
-	void test02Manutencao() {
-		assertEquals(1L, new ConfigServico().criarConfig(configManutencao));
+	@Order(2)
+	void testCriarManutencao() {
+		assertEquals(2L, new ConfigServico().criarConfig(configManutencao));
 	}
 
 }
