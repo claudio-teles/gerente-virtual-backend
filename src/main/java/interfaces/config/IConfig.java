@@ -1,8 +1,8 @@
-package main.interfaces.config;
+package main.java.interfaces.config;
 
 import java.io.Serializable;
 
-import main.modelo.config.Config;
+import main.java.modelo.config.Config;
 
 public interface IConfig {
 	

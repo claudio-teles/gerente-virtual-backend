@@ -1,4 +1,4 @@
-package main.modelo.config;
+package main.java.modelo.config;
 
 import java.io.Serializable;
 
