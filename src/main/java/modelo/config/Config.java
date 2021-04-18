@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import main.java.enumeracao.Setor;
-import main.java.enumeracao.SubSetorComercio;
-import main.java.enumeracao.SubSetorManutencao;
 
 @NoArgsConstructor
 @Data
@@ -29,7 +27,5 @@ public class Config implements Serializable {
 	private Long idConfig;
 	@Column(nullable = false)
 	private Setor setor;
-	private SubSetorComercio subSetorComercio;
-	private SubSetorManutencao subSetorManutencao;
 
 }
