@@ -4,9 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +23,7 @@ import main.java.modelo.estoque.comercio.EstoqueComercio;
 import main.java.modelo.estoque.manutencao.EstoqueManutencao;
 import main.java.modelo.fornecedor.Fornecedor;
 import main.java.modelo.identificacao.Identificacao;
+import main.java.modelo.outro.Outro;
 import main.java.modelo.peca.Peca;
 import main.java.modelo.produto.Produto;
 import main.java.servico.comercio.EstoqueComercioServico;
@@ -34,6 +33,7 @@ import main.java.servico.endereco.EnderecoServico;
 import main.java.servico.fornecedor.FornecedorServico;
 import main.java.servico.identificacao.IdentificacaoServico;
 import main.java.servico.manutencao.EstoqueManutencaoServico;
+import main.java.servico.outro.OutroServico;
 import main.java.servico.peca.PecaServico;
 import main.java.servico.produto.ProdutoServico;
 
@@ -56,6 +56,9 @@ class T01Tests {
 	private Produto produto1;
 	private Produto produto2;
 	private Produto produto3;
+	private Outro outro1;
+	private Outro outro2;
+	private Outro outro3;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -142,7 +145,7 @@ class T01Tests {
 		estoqueComercio2.setFornecedoresMercadoria(fornecedoresMercadoria2);
 		
 		estoqueManutencao = new EstoqueManutencao();
-		Map<Integer, Peca> pecas = new HashMap<>();
+		Set<Peca> pecas = new HashSet<>();
 		peca1 = new Peca();
 		peca1.setCodigoPeca("36952687841196");
 		peca1.setLocalEstaGuardado("Local um");
@@ -154,6 +157,7 @@ class T01Tests {
 		fornecedoresPeca1.add(fornecedorPeca1);
 		peca1.setFornecedoresPeca(fornecedoresPeca1);
 		peca1.setFotoPeca("/fotos/foto04.png");
+		peca1.setQuantidadePeca(0L);
 		
 		peca2 = new Peca();
 		peca2.setCodigoPeca("98952687841196");
@@ -166,6 +170,7 @@ class T01Tests {
 		fornecedoresPeca2.add(fornecedorPeca2);
 		peca2.setFornecedoresPeca(fornecedoresPeca2);
 		peca2.setFotoPeca("/fotos/foto05.png");
+		peca2.setQuantidadePeca(0L);
 		
 		peca3 = new Peca();
 		peca3.setCodigoPeca("36982687841137");
@@ -178,10 +183,11 @@ class T01Tests {
 		fornecedoresPeca3.add(fornecedorPeca3);
 		peca3.setFornecedoresPeca(fornecedoresPeca3);
 		peca3.setFotoPeca("/fotos/foto06.png");
+		peca3.setQuantidadePeca(0L);
 		
-		pecas.put(0, peca1);
-		pecas.put(0, peca2);
-		pecas.put(0, peca3);
+		pecas.add(peca1);
+		pecas.add(peca2);
+		pecas.add(peca3);
 		
 		produto1 = new Produto();
 		produto1.setIndentificadorProduto("Identificador um");
@@ -196,6 +202,7 @@ class T01Tests {
 		produto1.setFotoProduto("/fotos/foto07.png");
 		produto1.setPrecoAvista(new BigDecimal("18.37"));
 		produto1.setPrecoParcelado(new BigDecimal("0"));
+		produto1.setQuantidadeProduto(0L);
 		
 		produto2 = new Produto();
 		produto2.setIndentificadorProduto("Identificador dois");
@@ -210,6 +217,7 @@ class T01Tests {
 		produto2.setFotoProduto("/fotos/foto08.png");
 		produto2.setPrecoAvista(new BigDecimal("19.37"));
 		produto2.setPrecoParcelado(new BigDecimal("0"));
+		produto2.setQuantidadeProduto(0L);
 		
 		produto3 = new Produto();
 		produto3.setIndentificadorProduto("Identificador três");
@@ -224,13 +232,48 @@ class T01Tests {
 		produto3.setFotoProduto("/fotos/foto09.png");
 		produto3.setPrecoAvista(new BigDecimal("20.45"));
 		produto3.setPrecoParcelado(new BigDecimal("0"));
+		produto3.setQuantidadeProduto(0L);
 		
 		estoqueManutencao.setPecas(pecas);
-		Map<Integer, Produto> produtos = new HashMap<>();
-		produtos.put(0, produto1);
-		produtos.put(0, produto2);
-		produtos.put(0, produto3);
+		
+		Set<Produto> produtos = new HashSet<>();
+		produtos.add(produto1);
+		produtos.add(produto2);
+		produtos.add(produto3);
 		estoqueManutencao.setProdutos(produtos);
+		
+		Set<Fornecedor> fornecedoresOutros1 = new HashSet<>();
+		Fornecedor fornedorOutro1 = new FornecedorServico().encontrarFornecedor(6L);
+		fornecedoresOutros1.add(fornedorOutro1);
+		outro1 = new Outro(
+					"Indentificador um", "Local um", "Nome um", "Descrição um", "Fabricante um", 
+					new BigDecimal("39.41"), new BigDecimal("0"), fornecedoresOutros1, "/fotos/foto01.png"
+				);
+		outro1.setQuantidadeOutro(0L);
+		
+		Set<Fornecedor> fornecedoresOutros2 = new HashSet<>();
+		Fornecedor fornedorOutro2 = new FornecedorServico().encontrarFornecedor(6L);
+		fornecedoresOutros2.add(fornedorOutro2);
+		outro2 = new Outro(
+					"Indentificador dois", "Local dois", "Nome dois", "Descrição dois", "Fabricante dois", 
+					new BigDecimal("49.41"), new BigDecimal("0"), fornecedoresOutros2, "/fotos/foto02.png"
+				);
+		outro2.setQuantidadeOutro(0L);
+		
+		Set<Fornecedor> fornecedoresOutros3 = new HashSet<>();
+		Fornecedor fornedorOutro3 = new FornecedorServico().encontrarFornecedor(6L);
+		fornecedoresOutros3.add(fornedorOutro3);
+		outro3 = new Outro(
+					"Indentificador Três", "Local Três", "Nome Três", "Descrição Três", "Fabricante Três", 
+					new BigDecimal("59.41"), new BigDecimal("0"), fornecedoresOutros3, "/fotos/foto03.png"
+				);
+		outro3.setQuantidadeOutro(0L);
+		
+		Set<Outro> outros = new HashSet<>();
+		outros.add(outro1);
+		outros.add(outro2);
+		outros.add(outro3);
+		estoqueManutencao.setOutros(outros);
 		
 	}
 
@@ -302,12 +345,16 @@ class T01Tests {
 		assertEquals(14L, new ProdutoServico().criarProduto(produto2));
 		assertEquals(15L, new ProdutoServico().criarProduto(produto3));
 		
+		assertEquals(16L, new OutroServico().criarOutro(outro1));
+		assertEquals(17L, new OutroServico().criarOutro(outro2));
+		assertEquals(18L, new OutroServico().criarOutro(outro3));
+		
 		Long em1 = null;
 		Config configuracao = new ConfigServico().encontrarConfig(2L);
 		if (configuracao.getSetor() == Setor.MANUTENCAO_TECNICA) {
 			em1 = (Long) new EstoqueManutencaoServico().criarEstoqueManutencao(estoqueManutencao);
 		}
-		assertEquals(16L, em1);
+		assertEquals(19L, em1);
 	}
 
 }

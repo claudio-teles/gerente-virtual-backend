@@ -1,16 +1,18 @@
 package main.java.modelo.estoque.manutencao;
 
 import java.io.Serializable;
-import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import main.java.modelo.outro.Outro;
 import main.java.modelo.peca.Peca;
 import main.java.modelo.produto.Produto;
 
@@ -26,9 +28,11 @@ public class EstoqueManutencao implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idEstoqueManutencao;
-	@ElementCollection
-	private Map<Integer, Peca> pecas;
-	@ElementCollection
-	private Map<Integer, Produto> produtos;
+	@ElementCollection(fetch = FetchType.EAGER)
+	private Set<Peca> pecas;
+	@ElementCollection(fetch = FetchType.EAGER)
+	private Set<Produto> produtos;
+	@ElementCollection(fetch = FetchType.EAGER)
+	private Set<Outro> outros;
 
 }

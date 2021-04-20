@@ -36,6 +36,7 @@ public class Produto implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER)
 	private Set<Fornecedor> fornecedoresProduto;
 	private String fotoProduto;
+	private Long quantidadeProduto;
 	
 	private BigDecimal precoAvista;
 	private BigDecimal precoParcelado;
