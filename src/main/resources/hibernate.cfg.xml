@@ -39,7 +39,7 @@
         <property name="format_sql">false</property>
 
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hbm2ddl.auto">create</property>
+        <property name="hbm2ddl.auto">update</property>
 
 <!--    Names the annotated entity class -->
 		<mapping class="main.java.modelo.config.Config"/>
@@ -48,6 +48,9 @@
 		<mapping class="main.java.modelo.endereco.Endereco"/>
 		<mapping class="main.java.modelo.fornecedor.Fornecedor"/>
 		<mapping class="main.java.modelo.estoque.comercio.EstoqueComercio"/>
+		<mapping class="main.java.modelo.peca.Peca"/>
+		<mapping class="main.java.modelo.produto.Produto"/>
+		<mapping class="main.java.modelo.estoque.manutencao.EstoqueManutencao"/>
 
 
     </session-factory>
