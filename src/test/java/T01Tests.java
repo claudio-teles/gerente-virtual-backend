@@ -23,6 +23,7 @@ import main.java.modelo.estoque.comercio.EstoqueComercio;
 import main.java.modelo.estoque.manutencao.EstoqueManutencao;
 import main.java.modelo.fornecedor.Fornecedor;
 import main.java.modelo.identificacao.Identificacao;
+import main.java.modelo.mercadoria.Mercadoria;
 import main.java.modelo.outro.Outro;
 import main.java.modelo.peca.Peca;
 import main.java.modelo.produto.Produto;
@@ -33,6 +34,7 @@ import main.java.servico.endereco.EnderecoServico;
 import main.java.servico.fornecedor.FornecedorServico;
 import main.java.servico.identificacao.IdentificacaoServico;
 import main.java.servico.manutencao.EstoqueManutencaoServico;
+import main.java.servico.mercadoria.MercadoriaServico;
 import main.java.servico.outro.OutroServico;
 import main.java.servico.peca.PecaServico;
 import main.java.servico.produto.ProdutoServico;
@@ -48,7 +50,6 @@ class T01Tests {
 	private Endereco endereco;
 	private Fornecedor fornecedor;
 	private EstoqueComercio estoqueComercio1;
-	private EstoqueComercio estoqueComercio2;
 	private EstoqueManutencao estoqueManutencao;
 	private Peca peca1;
 	private Peca peca2;
@@ -59,6 +60,9 @@ class T01Tests {
 	private Outro outro1;
 	private Outro outro2;
 	private Outro outro3;
+	private Mercadoria mercadoria1;
+	private Mercadoria mercadoria2;
+	private Mercadoria mercadoria3;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -104,45 +108,41 @@ class T01Tests {
 		fornecedor.setContatoFornecedor(cont4);
 		fornecedor.setEnderecosFornecedor(enderecosFornecedor);
 		
-		estoqueComercio1 = new EstoqueComercio();// Mercadoria 1
-		estoqueComercio1.setCodigoBarraMercadoria("1234444467899");
-		estoqueComercio1.setNomeMercadoria("Arroz");
-		estoqueComercio1.setDescricaoCaracteristicasMercadoria("Arroz parboilizado, pacote de 5 kg");
-		estoqueComercio1.setNomeFabricanteMercadoria("Primo Rico");
-		estoqueComercio1.setPrecoMercadoriaComprada(new BigDecimal("8.97"));
-		estoqueComercio1.setPrecoVistaMercadoria(new BigDecimal("9.35"));
-		estoqueComercio1.setPrecoParceladoMercadoria(new BigDecimal("5.12"));
 		Calendar dataAquisicaoMercadoria1 = Calendar.getInstance();
 		dataAquisicaoMercadoria1.set(2021, 6, 15, 11, 39);
 		Calendar dataVencimentoMercadoria1 = Calendar.getInstance();
 		dataVencimentoMercadoria1.set(2023, 3, 17, 21, 47);
-		estoqueComercio1.setDataAquisicaoMercadoria(dataAquisicaoMercadoria1);
-		estoqueComercio1.setDataVencimentoMercadoria(dataVencimentoMercadoria1);
-		estoqueComercio1.setSubSetorComercio(SubSetorComercio.ALIMENTICIO);
-		estoqueComercio1.setQuantidadeMercadoriaEstoque(0L);// A quantidade de mercadorias inicial é 0
 		Set<Fornecedor> fornecedoresMercadoria1 = new HashSet<>();
 		fornecedoresMercadoria1.add(new FornecedorServico().encontrarFornecedor(6L));
-		estoqueComercio1.setFornecedoresMercadoria(fornecedoresMercadoria1);
+		mercadoria1 = new Mercadoria(
+					"1234444467899", "Arroz", "Arroz parboilizado, pacote de 5 kg", "Primo Rico", 
+					new BigDecimal("8.97"), new BigDecimal("9.35"), new BigDecimal("5.12"), dataAquisicaoMercadoria1, 
+					dataVencimentoMercadoria1, SubSetorComercio.ALIMENTICIO, 0L, fornecedoresMercadoria1
+				);
 		
-		estoqueComercio2 = new EstoqueComercio();// Mercadoria 2
-		estoqueComercio2.setCodigoBarraMercadoria("2314444467899");
-		estoqueComercio2.setNomeMercadoria("Feijão");
-		estoqueComercio2.setDescricaoCaracteristicasMercadoria("Feijão, pacote de 5 kg");
-		estoqueComercio2.setNomeFabricanteMercadoria("Feijão Nº 1");
-		estoqueComercio2.setPrecoMercadoriaComprada(new BigDecimal("12.97"));
-		estoqueComercio2.setPrecoVistaMercadoria(new BigDecimal("15.35"));
-		estoqueComercio2.setPrecoParceladoMercadoria(new BigDecimal("6.12"));
 		Calendar dataAquisicaoMercadoria2 = Calendar.getInstance();
 		dataAquisicaoMercadoria2.set(2021, 6, 15, 11, 39);
 		Calendar dataVencimentoMercadoria2 = Calendar.getInstance();
-		dataVencimentoMercadoria1.set(2023, 3, 17, 21, 47);
-		estoqueComercio2.setDataAquisicaoMercadoria(dataAquisicaoMercadoria2);
-		estoqueComercio2.setDataVencimentoMercadoria(dataVencimentoMercadoria2);
-		estoqueComercio2.setSubSetorComercio(SubSetorComercio.ALIMENTICIO);
-		estoqueComercio2.setQuantidadeMercadoriaEstoque(0L);// A quantidade de mercadorias inicial é 0
+		dataVencimentoMercadoria2.set(2023, 3, 17, 21, 47);
 		Set<Fornecedor> fornecedoresMercadoria2 = new HashSet<>();
 		fornecedoresMercadoria2.add(new FornecedorServico().encontrarFornecedor(6L));
-		estoqueComercio2.setFornecedoresMercadoria(fornecedoresMercadoria2);
+		mercadoria2 = new Mercadoria(
+				"2314444467899", "Feijão", "Feijão, pacote de 5 kg", "Feijão Nº 1", 
+				new BigDecimal("12.97"), new BigDecimal("6.12"), new BigDecimal("6.12"), dataAquisicaoMercadoria2, 
+				dataVencimentoMercadoria2, SubSetorComercio.ALIMENTICIO, 0L, fornecedoresMercadoria2
+				);
+		
+		Calendar dataAquisicaoMercadoria3 = Calendar.getInstance();
+		dataAquisicaoMercadoria3.set(2021, 6, 15, 11, 39);
+		Calendar dataVencimentoMercadoria3 = Calendar.getInstance();
+		dataVencimentoMercadoria3.set(2023, 3, 17, 21, 47);
+		Set<Fornecedor> fornecedoresMercadoria3 = new HashSet<>();
+		fornecedoresMercadoria3.add(new FornecedorServico().encontrarFornecedor(6L));
+		mercadoria3 = new Mercadoria(
+				"6927444467899", "Margaria", "Margariana de 500 g", "Qualy", 
+				new BigDecimal("8.73"), new BigDecimal("3.97"), new BigDecimal("3.12"), dataAquisicaoMercadoria3, 
+				dataVencimentoMercadoria3, SubSetorComercio.ALIMENTICIO, 0L, fornecedoresMercadoria3
+				);
 		
 		estoqueManutencao = new EstoqueManutencao();
 		Set<Peca> pecas = new HashSet<>();
@@ -316,45 +316,57 @@ class T01Tests {
 	@Test
 	@Order(7)
 	void testCriarEstoqueComercio() {
+		
+		assertEquals(7L, new MercadoriaServico().criarMercadoria(mercadoria1));
+		assertEquals(8L, new MercadoriaServico().criarMercadoria(mercadoria2));
+		assertEquals(9L, new MercadoriaServico().criarMercadoria(mercadoria3));
+		
+		estoqueComercio1 = new EstoqueComercio();
+		Set<Mercadoria> mercadorias = new HashSet<>();
+		Mercadoria merc1 = new MercadoriaServico().encontrarMercadoria(7L);
+		Mercadoria merc2 = new MercadoriaServico().encontrarMercadoria(8L);
+		Mercadoria merc3 = new MercadoriaServico().encontrarMercadoria(9L);
+		mercadorias.add(merc1 );
+		mercadorias.add(merc2);
+		mercadorias.add(merc3);
+		estoqueComercio1.setMercadorias(mercadorias);
+		
 		Long ecs1 = null;
-		Long ecs2 = null;
 		Config configuracao = new ConfigServico().encontrarConfig(1L);
 		if (configuracao.getSetor() == Setor.COMERCIO) {
 			ecs1 = (Long) new EstoqueComercioServico().criarEstoqueMercadoriaComercio(estoqueComercio1);// Item 1 cadastrado no estoque
-			ecs2 = (Long) new EstoqueComercioServico().criarEstoqueMercadoriaComercio(estoqueComercio2);// Item 2 cadastrado no estoque
 		}
-		assertEquals(7L, ecs1);
-		assertEquals(8L, ecs2);
+		assertEquals(10L, ecs1);
 	}
 	
 	
 	@Test
 	@Order(8)
 	void testCriarHibrido() {
-		assertEquals(9L, new ConfigServico().criarConfig(configHibrido));
+		assertEquals(11L, new ConfigServico().criarConfig(configHibrido));
 	}
 	
 	@Test
 	@Order(9)
 	void testCriarEstoqueManutencao() {
-		assertEquals(10L, new PecaServico().criarPeca(peca1));
-		assertEquals(11L, new PecaServico().criarPeca(peca2));
-		assertEquals(12L, new PecaServico().criarPeca(peca3));
+		assertEquals(12L, new PecaServico().criarPeca(peca1));
+		assertEquals(13L, new PecaServico().criarPeca(peca2));
+		assertEquals(14L, new PecaServico().criarPeca(peca3));
 		
-		assertEquals(13L, new ProdutoServico().criarProduto(produto1));
-		assertEquals(14L, new ProdutoServico().criarProduto(produto2));
-		assertEquals(15L, new ProdutoServico().criarProduto(produto3));
+		assertEquals(15L, new ProdutoServico().criarProduto(produto1));
+		assertEquals(16L, new ProdutoServico().criarProduto(produto2));
+		assertEquals(17L, new ProdutoServico().criarProduto(produto3));
 		
-		assertEquals(16L, new OutroServico().criarOutro(outro1));
-		assertEquals(17L, new OutroServico().criarOutro(outro2));
-		assertEquals(18L, new OutroServico().criarOutro(outro3));
+		assertEquals(18L, new OutroServico().criarOutro(outro1));
+		assertEquals(19L, new OutroServico().criarOutro(outro2));
+		assertEquals(20L, new OutroServico().criarOutro(outro3));
 		
 		Long em1 = null;
 		Config configuracao = new ConfigServico().encontrarConfig(2L);
 		if (configuracao.getSetor() == Setor.MANUTENCAO_TECNICA) {
 			em1 = (Long) new EstoqueManutencaoServico().criarEstoqueManutencao(estoqueManutencao);
 		}
-		assertEquals(19L, em1);
+		assertEquals(21L, em1);
 	}
 
 }

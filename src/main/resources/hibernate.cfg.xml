@@ -47,6 +47,7 @@
 		<mapping class="main.java.modelo.contato.Contato"/>
 		<mapping class="main.java.modelo.endereco.Endereco"/>
 		<mapping class="main.java.modelo.fornecedor.Fornecedor"/>
+		<mapping class="main.java.modelo.mercadoria.Mercadoria"/>
 		<mapping class="main.java.modelo.estoque.comercio.EstoqueComercio"/>
 		<mapping class="main.java.modelo.peca.Peca"/>
 		<mapping class="main.java.modelo.produto.Produto"/>
