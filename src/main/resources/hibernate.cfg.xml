@@ -53,6 +53,7 @@
 		<mapping class="main.java.modelo.produto.Produto"/>
 		<mapping class="main.java.modelo.outro.Outro"/>
 		<mapping class="main.java.modelo.estoque.manutencao.EstoqueManutencao"/>
+		<mapping class="main.java.modelo.cliente.Cliente"/>
 
 
     </session-factory>

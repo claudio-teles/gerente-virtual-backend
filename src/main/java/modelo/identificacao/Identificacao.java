@@ -24,6 +24,7 @@ public class Identificacao implements Serializable {
 	private Long idIdentificacao;
 	private String nomeFantasia;
 	private String razaoSocial;
+	private String nomePessoaFisica;
 	private String cpf;
 	private String cnpj;
 	

@@ -16,6 +16,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import main.java.enumeracao.Setor;
 import main.java.enumeracao.SubSetorComercio;
 import main.java.enumeracao.UnidadeFederativa;
+import main.java.modelo.cliente.Cliente;
 import main.java.modelo.config.Config;
 import main.java.modelo.contato.Contato;
 import main.java.modelo.endereco.Endereco;
@@ -27,6 +28,7 @@ import main.java.modelo.mercadoria.Mercadoria;
 import main.java.modelo.outro.Outro;
 import main.java.modelo.peca.Peca;
 import main.java.modelo.produto.Produto;
+import main.java.servico.cliente.ClienteServico;
 import main.java.servico.comercio.EstoqueComercioServico;
 import main.java.servico.config.ConfigServico;
 import main.java.servico.contato.ContatoServico;
@@ -63,6 +65,8 @@ class T01Tests {
 	private Mercadoria mercadoria1;
 	private Mercadoria mercadoria2;
 	private Mercadoria mercadoria3;
+	private Cliente cliente1;
+	private Cliente cliente2;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -346,6 +350,7 @@ class T01Tests {
 		assertEquals(11L, new ConfigServico().criarConfig(configHibrido));
 	}
 	
+	
 	@Test
 	@Order(9)
 	void testCriarEstoqueManutencao() {
@@ -367,6 +372,68 @@ class T01Tests {
 			em1 = (Long) new EstoqueManutencaoServico().criarEstoqueManutencao(estoqueManutencao);
 		}
 		assertEquals(21L, em1);
+	}
+
+
+	@Test
+	@Order(9)
+	void testCriarCliente() {
+		Identificacao identCliente1 = new Identificacao();
+		identCliente1.setNomePessoaFisica("Pessoa um");
+		identCliente1.setCpf("935.686.792-18");
+		new IdentificacaoServico().criarIdentificacao(identCliente1);
+		
+		Identificacao identCliente2 = new Identificacao();
+		identCliente2.setNomePessoaFisica("Pessoa dois");
+		identCliente2.setCpf("375.686.799-37");
+		new IdentificacaoServico().criarIdentificacao(identCliente2);
+		
+		Endereco enderecoCliente1 = new Endereco();
+		enderecoCliente1.setRua("Rua cliente um");
+		enderecoCliente1.setNumero(975);
+		enderecoCliente1.setComplemento("Apartamento");
+		enderecoCliente1.setCep("98738-364");
+		enderecoCliente1.setReferencia("Centro");
+		enderecoCliente1.setCidade("Brasilia");
+		enderecoCliente1.setUnidadeFederativa(UnidadeFederativa.DISTRITO_FEDERAL);
+		enderecoCliente1.setPais("Brasil");
+		new EnderecoServico().criarEndereco(enderecoCliente1);
+		
+		Endereco enderecoCliente2 = new Endereco();
+		enderecoCliente2.setRua("Rua cliente dois");
+		enderecoCliente2.setNumero(386);
+		enderecoCliente2.setComplemento("Casa");
+		enderecoCliente2.setCep("96738-364");
+		enderecoCliente2.setReferencia("Centro");
+		enderecoCliente2.setCidade("Cidade dois");
+		enderecoCliente2.setUnidadeFederativa(UnidadeFederativa.ALAGOAS);
+		enderecoCliente2.setPais("Brasil");
+		new EnderecoServico().criarEndereco(enderecoCliente2);
+		
+		Contato contatoCliente1 = new Contato();
+		contatoCliente1.setCelular("+55 (37) 9 1834-6972");
+		contatoCliente1.setTelefone("(32) 9836-4896");
+		contatoCliente1.setEmail("email@clienteum.com");
+		new ContatoServico().criarContato(contatoCliente1);
+		
+		Contato contatoCliente2 = new Contato();
+		contatoCliente2.setCelular("+55 (94) 9 2734-6917");
+		contatoCliente2.setTelefone("(58) 7636-4884");
+		contatoCliente2.setEmail("email@clientedois.com");
+		new ContatoServico().criarContato(contatoCliente2);
+		
+		cliente1 = new Cliente();
+		cliente1.setIdentificacao(new IdentificacaoServico().encontrarIdentificacao(22L));
+		cliente1.setEndereco(new EnderecoServico().encontrarEndereco(24L));
+		cliente1.setContato(new ContatoServico().encotrarContato(26L));
+		
+		cliente2 = new Cliente();
+		cliente2.setIdentificacao(new IdentificacaoServico().encontrarIdentificacao(23L));
+		cliente2.setEndereco(new EnderecoServico().encontrarEndereco(25L));
+		cliente2.setContato(new ContatoServico().encotrarContato(27L));
+		
+		assertEquals(28L, new ClienteServico().criarCliente(cliente1));
+		assertEquals(29L, new ClienteServico().criarCliente(cliente2));
 	}
 
 }
