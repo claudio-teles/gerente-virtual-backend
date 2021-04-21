@@ -28,6 +28,7 @@ import main.java.modelo.mercadoria.Mercadoria;
 import main.java.modelo.outro.Outro;
 import main.java.modelo.peca.Peca;
 import main.java.modelo.produto.Produto;
+import main.java.modelo.tecnico.Tecnico;
 import main.java.servico.cliente.ClienteServico;
 import main.java.servico.comercio.EstoqueComercioServico;
 import main.java.servico.config.ConfigServico;
@@ -40,6 +41,7 @@ import main.java.servico.mercadoria.MercadoriaServico;
 import main.java.servico.outro.OutroServico;
 import main.java.servico.peca.PecaServico;
 import main.java.servico.produto.ProdutoServico;
+import main.java.servico.tecnico.TecnicoServico;
 
 @TestMethodOrder(OrderAnnotation.class)
 class T01Tests {
@@ -376,7 +378,7 @@ class T01Tests {
 
 
 	@Test
-	@Order(9)
+	@Order(10)
 	void testCriarCliente() {
 		Identificacao identCliente1 = new Identificacao();
 		identCliente1.setNomePessoaFisica("Pessoa um");
@@ -434,6 +436,69 @@ class T01Tests {
 		
 		assertEquals(28L, new ClienteServico().criarCliente(cliente1));
 		assertEquals(29L, new ClienteServico().criarCliente(cliente2));
+	}
+	
+	@Test
+	@Order(11)
+	void testCriarTecnico() {
+		Identificacao identTecnico1 = new Identificacao();
+		identTecnico1.setNomePessoaFisica("Técnico um");
+		identTecnico1.setCpf("983.686.792-18");
+		new IdentificacaoServico().criarIdentificacao(identTecnico1);
+		
+		Identificacao identTecnico2 = new Identificacao();
+		identTecnico2.setNomePessoaFisica("Técnico dois");
+		identTecnico2.setCpf("487.686.799-37");
+		new IdentificacaoServico().criarIdentificacao(identTecnico2);
+		
+		Endereco enderecoTecnico1 = new Endereco();
+		enderecoTecnico1.setRua("Rua Técnico um");
+		enderecoTecnico1.setNumero(167);
+		enderecoTecnico1.setComplemento("Apartamento");
+		enderecoTecnico1.setCep("98776-364");
+		enderecoTecnico1.setReferencia("Centro");
+		enderecoTecnico1.setCidade("Brasilia");
+		enderecoTecnico1.setUnidadeFederativa(UnidadeFederativa.DISTRITO_FEDERAL);
+		enderecoTecnico1.setPais("Brasil");
+		new EnderecoServico().criarEndereco(enderecoTecnico1);
+		
+		Endereco enderecoTecnico2 = new Endereco();
+		enderecoTecnico2.setRua("Rua Técnio dois");
+		enderecoTecnico2.setNumero(349);
+		enderecoTecnico2.setComplemento("Casa");
+		enderecoTecnico2.setCep("769348-364");
+		enderecoTecnico2.setReferencia("Centro");
+		enderecoTecnico2.setCidade("Cidade dois");
+		enderecoTecnico2.setUnidadeFederativa(UnidadeFederativa.ALAGOAS);
+		enderecoTecnico2.setPais("Brasil");
+		new EnderecoServico().criarEndereco(enderecoTecnico2);
+		
+		Contato contatoTecnico1 = new Contato();
+		contatoTecnico1.setCelular("+55 (83) 9 8134-6972");
+		contatoTecnico1.setTelefone("(73) 3736-4896");
+		contatoTecnico1.setEmail("email@tecnicoum.com");
+		new ContatoServico().criarContato(contatoTecnico1);
+		
+		Contato contatoTecnico2 = new Contato();
+		contatoTecnico2.setCelular("+55 (38) 9 3734-6917");
+		contatoTecnico2.setTelefone("(37) 3936-4884");
+		contatoTecnico2.setEmail("email@tecnicodois.com");
+		new ContatoServico().criarContato(contatoTecnico2);
+		
+		Tecnico tecnico1 = new Tecnico();
+		tecnico1.setIdentificacao(new IdentificacaoServico().encontrarIdentificacao(30L));
+		tecnico1.setEndereco(new EnderecoServico().encontrarEndereco(32L));
+		tecnico1.setContato(new ContatoServico().encotrarContato(34L));
+		tecnico1.setAreaEspecializacao("Área um");
+		
+		Tecnico tecnico2 = new Tecnico();
+		tecnico2.setIdentificacao(new IdentificacaoServico().encontrarIdentificacao(31L));
+		tecnico2.setEndereco(new EnderecoServico().encontrarEndereco(33L));
+		tecnico2.setContato(new ContatoServico().encotrarContato(35L));
+		tecnico2.setAreaEspecializacao("Área dois");
+		
+		assertEquals(36L, new TecnicoServico().criarTecnico(tecnico1));
+		assertEquals(37L, new TecnicoServico().criarTecnico(tecnico2));
 	}
 
 }
