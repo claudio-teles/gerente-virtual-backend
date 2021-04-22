@@ -58,6 +58,7 @@
 		<mapping class="main.java.modelo.vendedor.Vendedor"/>
 		<mapping class="main.java.modelo.compra.Compra"/>
 		<mapping class="main.java.modelo.empreendimento.Empreendimento"/>
+		<mapping class="main.java.modelo.itemcobrado.ItemCobradoManutencao"/>
 		<mapping class="main.java.modelo.ordemservico.OrdemServico"/>
 
 

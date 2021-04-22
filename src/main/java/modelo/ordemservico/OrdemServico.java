@@ -2,14 +2,12 @@ package main.java.modelo.ordemservico;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
@@ -18,9 +16,7 @@ import main.java.enumeracao.FormaPagemento;
 import main.java.enumeracao.StatusOrdemServico;
 import main.java.modelo.cliente.Cliente;
 import main.java.modelo.empreendimento.Empreendimento;
-import main.java.modelo.outro.Outro;
-import main.java.modelo.peca.Peca;
-import main.java.modelo.produto.Produto;
+import main.java.modelo.itemcobrado.ItemCobradoManutencao;
 
 @NoArgsConstructor
 @Data
@@ -46,13 +42,8 @@ public class OrdemServico implements Serializable {
 	private Cliente cliente;
 	private StatusOrdemServico statusOrdemServico;
 	private FormaPagemento formaPagemento;
-	private String descricaoDefeito;
-	@OneToMany(fetch = FetchType.EAGER)
-	private Set<Peca> pecas;
-	@OneToMany(fetch = FetchType.EAGER)
-	private Set<Produto> produtos;
-	@OneToMany(fetch = FetchType.EAGER)
-	private Set<Outro> outros;
+	@OneToOne(fetch = FetchType.EAGER)
+	private ItemCobradoManutencao itemCobradoManutencao;
 	private String observacao;
 
 }

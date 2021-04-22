@@ -15,7 +15,9 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import main.java.enumeracao.FormaPagemento;
 import main.java.enumeracao.Setor;
+import main.java.enumeracao.StatusOrdemServico;
 import main.java.enumeracao.SubSetorComercio;
 import main.java.enumeracao.UnidadeFederativa;
 import main.java.modelo.cliente.Cliente;
@@ -28,28 +30,32 @@ import main.java.modelo.estoque.comercio.EstoqueComercio;
 import main.java.modelo.estoque.manutencao.EstoqueManutencao;
 import main.java.modelo.fornecedor.Fornecedor;
 import main.java.modelo.identificacao.Identificacao;
+import main.java.modelo.itemcobrado.ItemCobradoManutencao;
 import main.java.modelo.mercadoria.Mercadoria;
+import main.java.modelo.ordemservico.OrdemServico;
 import main.java.modelo.outro.Outro;
 import main.java.modelo.peca.Peca;
 import main.java.modelo.produto.Produto;
 import main.java.modelo.tecnico.Tecnico;
 import main.java.modelo.vendedor.Vendedor;
-import main.java.servico.EmpreendimentoServico;
-import main.java.servico.VendedorServico;
 import main.java.servico.cliente.ClienteServico;
 import main.java.servico.comercio.EstoqueComercioServico;
 import main.java.servico.compra.CompraServico;
 import main.java.servico.config.ConfigServico;
 import main.java.servico.contato.ContatoServico;
+import main.java.servico.empreendimento.EmpreendimentoServico;
 import main.java.servico.endereco.EnderecoServico;
 import main.java.servico.fornecedor.FornecedorServico;
 import main.java.servico.identificacao.IdentificacaoServico;
+import main.java.servico.item.ItemCobradoManutencaoServico;
 import main.java.servico.manutencao.EstoqueManutencaoServico;
 import main.java.servico.mercadoria.MercadoriaServico;
+import main.java.servico.os.OrdemServico_Servico;
 import main.java.servico.outro.OutroServico;
 import main.java.servico.peca.PecaServico;
 import main.java.servico.produto.ProdutoServico;
 import main.java.servico.tecnico.TecnicoServico;
+import main.java.servico.vendedor.VendedorServico;
 
 @TestMethodOrder(OrderAnnotation.class)
 class T01Tests {
@@ -663,6 +669,48 @@ class T01Tests {
 		empreendimento.setVendedores(vendedoresEmpreendimento);
 		empreendimento.setTecnicos(tecnicosEmpreendimento);
 		assertEquals(50L, new EmpreendimentoServico().criarEmpreendimento(empreendimento));
+	}
+	
+	@Test
+	@Order(15)
+	void testeCriarOrdemServico() {
+		Calendar dataAberturaOS = Calendar.getInstance();
+		dataAberturaOS.set(2021, 3, 5);
+		Calendar dataPrevisaoTerminoOS = Calendar.getInstance();
+		dataAberturaOS.set(2021, 3, 10);
+		Calendar dataFinalizacaoOS = Calendar.getInstance();
+		dataAberturaOS.set(2021, 3, 12);
+		Calendar dataInicioGarantia = Calendar.getInstance();
+		dataAberturaOS.set(2021, 3, 15);
+		Calendar dataTerminoGarantia = Calendar.getInstance();
+		dataAberturaOS.set(2021, 6, 15);
+		
+		Cliente clienteEmpreendimento = new ClienteServico().encontrarCliente(28L);
+		
+		Set<Peca> pecasManutencao = new HashSet<>();
+		pecasManutencao.add(new PecaServico().encontrarPeca(12L));
+		pecasManutencao.add(new PecaServico().encontrarPeca(13L));
+		
+		ItemCobradoManutencao itemCobradoManutencao = new ItemCobradoManutencao();
+		itemCobradoManutencao.setPecas(pecasManutencao);
+		
+		new ItemCobradoManutencaoServico().criarItemCobradoManutencao(itemCobradoManutencao);
+		
+		OrdemServico ordemServico = new OrdemServico();
+		ordemServico.setEmpreendimento(new EmpreendimentoServico().encontrarEmpreendimento(50L));
+		ordemServico.setDataAberturaOS(dataAberturaOS);
+		ordemServico.setDataAberturaOS(dataAberturaOS);
+		ordemServico.setDataPrevisaoTerminoOS(dataPrevisaoTerminoOS);
+		ordemServico.setDataFinalizacaoOS(dataFinalizacaoOS);
+		ordemServico.setDataInicioGarantia(dataInicioGarantia);
+		ordemServico.setDataTerminoGarantia(dataTerminoGarantia);
+		ordemServico.setCliente(clienteEmpreendimento);
+		ordemServico.setStatusOrdemServico(StatusOrdemServico.FINALIZADA);
+		ordemServico.setFormaPagemento(FormaPagemento.DINHEIRO);
+		ordemServico.setItemCobradoManutencao(new ItemCobradoManutencaoServico().encontrarItemCobradoManutencao(51L));
+		ordemServico.setObservacao("Observação um");
+		
+		assertEquals(52L, new OrdemServico_Servico().criarOrdemServico(ordemServico));
 	}
 
 }

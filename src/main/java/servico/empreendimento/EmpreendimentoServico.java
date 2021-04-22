@@ -1,4 +1,4 @@
-package main.java.servico;
+package main.java.servico.empreendimento;
 
 import java.io.Serializable;
 

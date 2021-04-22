@@ -1,4 +1,4 @@
-package main.java.servico;
+package main.java.servico.vendedor;
 
 import java.io.Serializable;
 
