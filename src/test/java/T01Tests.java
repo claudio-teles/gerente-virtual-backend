@@ -22,6 +22,7 @@ import main.java.modelo.cliente.Cliente;
 import main.java.modelo.compra.Compra;
 import main.java.modelo.config.Config;
 import main.java.modelo.contato.Contato;
+import main.java.modelo.empreendimento.Empreendimento;
 import main.java.modelo.endereco.Endereco;
 import main.java.modelo.estoque.comercio.EstoqueComercio;
 import main.java.modelo.estoque.manutencao.EstoqueManutencao;
@@ -33,6 +34,7 @@ import main.java.modelo.peca.Peca;
 import main.java.modelo.produto.Produto;
 import main.java.modelo.tecnico.Tecnico;
 import main.java.modelo.vendedor.Vendedor;
+import main.java.servico.EmpreendimentoServico;
 import main.java.servico.VendedorServico;
 import main.java.servico.cliente.ClienteServico;
 import main.java.servico.comercio.EstoqueComercioServico;
@@ -609,6 +611,58 @@ class T01Tests {
 			Compra compra = new Compra(dataCompra, fornecedorCompra, mercadorias);
 			assertEquals(46L, new CompraServico().criarCompra(compra));
 		}
+	}
+	
+	@Test
+	@Order(14)
+	void testeCriarEmpreendimento() {
+		Identificacao identificacaoEmpreendimento = new Identificacao();
+		identificacaoEmpreendimento.setNomePessoaFisica("Pessoa um empreendimento");
+		identificacaoEmpreendimento.setRazaoSocial("Razão social um empreendimento");
+		identificacaoEmpreendimento.setNomeFantasia("Nome fantasia um empreendimento");
+		identificacaoEmpreendimento.setCpf("564.852.357-98");
+		identificacaoEmpreendimento.setCnpj("53.548.555/555-72");
+		new IdentificacaoServico().criarIdentificacao(identificacaoEmpreendimento);
+		
+		Endereco enderecoEmpreendimento = new Endereco();
+		enderecoEmpreendimento.setBairro("Centro");
+		enderecoEmpreendimento.setCep("91654-348");
+		enderecoEmpreendimento.setCidade("Cidade empreendimento");
+		enderecoEmpreendimento.setComplemento("Apê");
+		enderecoEmpreendimento.setNumero(6789);
+		enderecoEmpreendimento.setPais("Brasil");
+		enderecoEmpreendimento.setReferencia("Próximo a praça 21 de Maio");
+		enderecoEmpreendimento.setUnidadeFederativa(UnidadeFederativa.PIAUI);
+		new EnderecoServico().criarEndereco(enderecoEmpreendimento);
+		
+		Contato contatoEmpreendimento = new Contato();
+		contatoEmpreendimento.setCelular("+55 (64) 9 4832-9548");
+		contatoEmpreendimento.setEmail("email@empreendimentoum.com.br");
+		contatoEmpreendimento.setSite("www.siteempreendimentoum.com.br");
+		contatoEmpreendimento.setTelefone("(15) 6548-2764");
+		new ContatoServico().criarContato(contatoEmpreendimento);
+		
+		Vendedor v1 = new VendedorServico().encontrarVendedor(44L);
+		Vendedor v2 = new VendedorServico().encontrarVendedor(45L);
+		
+		Set<Vendedor> vendedoresEmpreendimento = new HashSet<>();
+		vendedoresEmpreendimento.add(v1);
+		vendedoresEmpreendimento.add(v2);
+		
+		Tecnico t1 = new TecnicoServico().encontrarTecnico(36L);
+		Tecnico t2 = new TecnicoServico().encontrarTecnico(37L);
+		
+		Set<Tecnico> tecnicosEmpreendimento = new HashSet<>();
+		tecnicosEmpreendimento.add(t1);
+		tecnicosEmpreendimento.add(t2);
+		
+		Empreendimento empreendimento = new Empreendimento();
+		empreendimento.setIdentificacao(new IdentificacaoServico().encontrarIdentificacao(47L));
+		empreendimento.setEndereco(new EnderecoServico().encontrarEndereco(48L));
+		empreendimento.setContato(new ContatoServico().encotrarContato(49L));
+		empreendimento.setVendedores(vendedoresEmpreendimento);
+		empreendimento.setTecnicos(tecnicosEmpreendimento);
+		assertEquals(50L, new EmpreendimentoServico().criarEmpreendimento(empreendimento));
 	}
 
 }
