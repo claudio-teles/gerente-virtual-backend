@@ -55,6 +55,8 @@
 		<mapping class="main.java.modelo.estoque.manutencao.EstoqueManutencao"/>
 		<mapping class="main.java.modelo.cliente.Cliente"/>
 		<mapping class="main.java.modelo.tecnico.Tecnico"/>
+		<mapping class="main.java.modelo.vendedor.Vendedor"/>
+		<mapping class="main.java.modelo.compra.Compra"/>
 
 
     </session-factory>

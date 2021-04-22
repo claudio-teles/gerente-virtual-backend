@@ -3,8 +3,10 @@ package test.java;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +19,7 @@ import main.java.enumeracao.Setor;
 import main.java.enumeracao.SubSetorComercio;
 import main.java.enumeracao.UnidadeFederativa;
 import main.java.modelo.cliente.Cliente;
+import main.java.modelo.compra.Compra;
 import main.java.modelo.config.Config;
 import main.java.modelo.contato.Contato;
 import main.java.modelo.endereco.Endereco;
@@ -29,8 +32,11 @@ import main.java.modelo.outro.Outro;
 import main.java.modelo.peca.Peca;
 import main.java.modelo.produto.Produto;
 import main.java.modelo.tecnico.Tecnico;
+import main.java.modelo.vendedor.Vendedor;
+import main.java.servico.VendedorServico;
 import main.java.servico.cliente.ClienteServico;
 import main.java.servico.comercio.EstoqueComercioServico;
+import main.java.servico.compra.CompraServico;
 import main.java.servico.config.ConfigServico;
 import main.java.servico.contato.ContatoServico;
 import main.java.servico.endereco.EnderecoServico;
@@ -332,7 +338,7 @@ class T01Tests {
 		Mercadoria merc1 = new MercadoriaServico().encontrarMercadoria(7L);
 		Mercadoria merc2 = new MercadoriaServico().encontrarMercadoria(8L);
 		Mercadoria merc3 = new MercadoriaServico().encontrarMercadoria(9L);
-		mercadorias.add(merc1 );
+		mercadorias.add(merc1);
 		mercadorias.add(merc2);
 		mercadorias.add(merc3);
 		estoqueComercio1.setMercadorias(mercadorias);
@@ -499,6 +505,110 @@ class T01Tests {
 		
 		assertEquals(36L, new TecnicoServico().criarTecnico(tecnico1));
 		assertEquals(37L, new TecnicoServico().criarTecnico(tecnico2));
+	}
+	
+	@Test
+	@Order(12)
+	void testeCriarVendedor() {
+		Identificacao identVendedor1 = new Identificacao();
+		identVendedor1.setNomePessoaFisica("Vendedor um");
+		identVendedor1.setCpf("983.498..792-18");
+		new IdentificacaoServico().criarIdentificacao(identVendedor1);
+		
+		Identificacao identVendedor2 = new Identificacao();
+		identVendedor2.setNomePessoaFisica("Vendedor dois");
+		identVendedor2.setCpf("327.598.799-37");
+		new IdentificacaoServico().criarIdentificacao(identVendedor2);
+		
+		Endereco enderecoVendedor1 = new Endereco();
+		enderecoVendedor1.setRua("Rua Vendedor um");
+		enderecoVendedor1.setNumero(715);
+		enderecoVendedor1.setComplemento("Apartamento");
+		enderecoVendedor1.setCep("68728-364");
+		enderecoVendedor1.setReferencia("Centro");
+		enderecoVendedor1.setCidade("Brasilia");
+		enderecoVendedor1.setUnidadeFederativa(UnidadeFederativa.DISTRITO_FEDERAL);
+		enderecoVendedor1.setPais("Brasil");
+		new EnderecoServico().criarEndereco(enderecoVendedor1);
+		
+		Endereco enderecoVendedor2 = new Endereco();
+		enderecoVendedor2.setRua("Rua Vendedor dois");
+		enderecoVendedor2.setNumero(186);
+		enderecoVendedor2.setComplemento("Casa");
+		enderecoVendedor2.setCep("43286-364");
+		enderecoVendedor2.setReferencia("Centro");
+		enderecoVendedor2.setCidade("Cidade dois");
+		enderecoVendedor2.setUnidadeFederativa(UnidadeFederativa.ALAGOAS);
+		enderecoVendedor2.setPais("Brasil");
+		new EnderecoServico().criarEndereco(enderecoVendedor2);
+		
+		Contato contatoVendedor1 = new Contato();
+		contatoVendedor1.setCelular("+55 (27) 9 6484-6972");
+		contatoVendedor1.setTelefone("(78) 8276-4896");
+		contatoVendedor1.setEmail("email@vendedorum.com");
+		new ContatoServico().criarContato(contatoVendedor1);
+		
+		Contato contatoVendedor2 = new Contato();
+		contatoVendedor2.setCelular("+55 (43) 9 4934-6917");
+		contatoVendedor2.setTelefone("(11) 3576-4884");
+		contatoVendedor2.setEmail("email@vendedordois.com");
+		new ContatoServico().criarContato(contatoVendedor2);
+		
+		Vendedor vendedor1 = new Vendedor();
+		vendedor1.setIdentificacao(new IdentificacaoServico().encontrarIdentificacao(38L));
+		vendedor1.setEndereco(new EnderecoServico().encontrarEndereco(40L));
+		vendedor1.setContato(new ContatoServico().encotrarContato(42L));
+		
+		Vendedor vendedor2 = new Vendedor();
+		vendedor2.setIdentificacao(new IdentificacaoServico().encontrarIdentificacao(39L));
+		vendedor2.setEndereco(new EnderecoServico().encontrarEndereco(41L));
+		vendedor2.setContato(new ContatoServico().encotrarContato(43L));
+		
+		assertEquals(44L, new VendedorServico().criarVendedor(vendedor1));
+		assertEquals(45L, new VendedorServico().criarVendedor(vendedor2));
+	}
+	
+	@Test
+	@Order(13)
+	void testeCriarCompra() {
+		Config configuracaoCompraComercio = new ConfigServico().encontrarConfig(1L);
+		if (configuracaoCompraComercio.getSetor() == Setor.COMERCIO) {
+			Calendar dataCompra = Calendar.getInstance();
+			dataCompra.set(2021, 03, 21, 16, 33);
+			
+			Fornecedor fornecedorCompra = new FornecedorServico().encontrarFornecedor(6L);
+			
+			List<Long> idMercadorias = new ArrayList<>();
+			idMercadorias.add(7L);
+			idMercadorias.add(8L);
+			idMercadorias.add(9L);
+			
+			List<Long> quantidades = new ArrayList<>();
+			quantidades.add(35L);
+			quantidades.add(18L);
+			quantidades.add(48L);
+			
+			Set<Mercadoria> mercadorias = new MercadoriaServico().encontrarTodasMercadorias();
+			
+			for (Mercadoria mercadoria : mercadorias) {
+				for (int i = 0; i < idMercadorias.size(); i++) {
+					for (int j = 0; j < quantidades.size(); j++) {
+						if (i == j) {
+							// idMercadorias.size() - (idMercadorias.size() - i)
+							if (mercadoria.getIdMercadoria().equals( idMercadorias.get(idMercadorias.size() - (idMercadorias.size() - i)) )) {
+								mercadoria.setQuantidadeMercadoriaEstoque( mercadoria.getQuantidadeMercadoriaEstoque() + quantidades.get(quantidades.size() - (quantidades.size() - j)) );
+								// Atualizar mercadoria
+								System.out.println();
+								System.out.println("Status atualização de mercadoria: "+new MercadoriaServico().atualizarMercadoria(mercadoria));
+							}
+						}
+					}
+				}
+			}
+			
+			Compra compra = new Compra(dataCompra, fornecedorCompra, mercadorias);
+			assertEquals(46L, new CompraServico().criarCompra(compra));
+		}
 	}
 
 }

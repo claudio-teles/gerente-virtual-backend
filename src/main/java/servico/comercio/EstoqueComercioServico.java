@@ -1,11 +1,13 @@
 package main.java.servico.comercio;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import org.hibernate.Session;
 
 import main.java.interfaces.comercio.IEstoqueComercio;
 import main.java.modelo.estoque.comercio.EstoqueComercio;
+import main.java.modelo.mercadoria.Mercadoria;
 import main.java.sessao.Sessao;
 
 public class EstoqueComercioServico implements IEstoqueComercio {
@@ -32,6 +34,18 @@ public class EstoqueComercioServico implements IEstoqueComercio {
 		sm.getTransaction().commit();
 		sm.close();
 		return estoqueMercadoriaComercio;
+	}
+
+	@Override
+	public Set<Mercadoria> encontrarTodasMercadoriaEstoque(Long idMercadoriaEstoqueComercio) {
+		Session sEtme = Sessao.getSessionFactory().openSession();
+		sEtme.beginTransaction();
+		
+		EstoqueComercio estoqueComercio = encontrarMercadoriaEstoque(idMercadoriaEstoqueComercio);
+		
+		sEtme.getTransaction().commit();
+		sEtme.close();
+		return estoqueComercio.getMercadorias();
 	}
 
 }
