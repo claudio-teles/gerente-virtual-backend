@@ -1,17 +1,17 @@
-package main.java.servico.item;
+package main.java.servico.cobrado;
 
 import java.io.Serializable;
 
 import org.hibernate.Session;
 
-import main.java.interfaces.item.I_ItemManutencao;
-import main.java.modelo.itemcobrado.ItemCobradoManutencao;
+import main.java.interfaces.consertomanutencao.IManutencao;
+import main.java.modelo.cobrado.CobradoManutencao;
 import main.java.sessao.Sessao;
 
-public class ItemCobradoManutencaoServico implements I_ItemManutencao {
+public class CobradoManutencaoServico implements IManutencao {
 
 	@Override
-	public Serializable criarItemCobradoManutencao(ItemCobradoManutencao itemCobradoManutencao) {
+	public Serializable criarCobradoManutencao(CobradoManutencao itemCobradoManutencao) {
 		Session sessionCriarItem = Sessao.getSessionFactory().openSession();
 		sessionCriarItem.beginTransaction();
 		
@@ -23,11 +23,11 @@ public class ItemCobradoManutencaoServico implements I_ItemManutencao {
 	}
 
 	@Override
-	public ItemCobradoManutencao encontrarItemCobradoManutencao(Long idItemCobradoManutencao) {
+	public CobradoManutencao encontrarCobradoManutencao(Long idItemCobradoManutencao) {
 		Session sessionEncontrarItem = Sessao.getSessionFactory().openSession();
 		sessionEncontrarItem.beginTransaction();
 		
-		ItemCobradoManutencao itemCobradoManutencao = sessionEncontrarItem.find(ItemCobradoManutencao.class, idItemCobradoManutencao);
+		CobradoManutencao itemCobradoManutencao = sessionEncontrarItem.find(CobradoManutencao.class, idItemCobradoManutencao);
 		
 		sessionEncontrarItem.getTransaction().commit();
 		sessionEncontrarItem.close();

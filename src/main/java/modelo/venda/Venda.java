@@ -1,4 +1,4 @@
-package main.java.modelo.compra;
+package main.java.modelo.venda;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,29 +16,28 @@ import javax.persistence.OneToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import main.java.enumeracao.FormaPagemento;
-import main.java.modelo.fornecedor.Fornecedor;
 import main.java.modelo.mercadoria.Mercadoria;
 import main.java.modelo.outro.Outro;
 import main.java.modelo.peca.Peca;
 import main.java.modelo.produto.Produto;
+import main.java.modelo.vendedor.Vendedor;
 
 @NoArgsConstructor
 @Data
 @Entity
-public class Compra implements Serializable {
+public class Venda implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4613245537877035903L;
+	private static final long serialVersionUID = -3919626273705563733L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long idCompra;
-	private Calendar dataCompra;
+	private Long idVenda;
+	private Calendar dataVenda;
 	@OneToOne(fetch = FetchType.EAGER)
-	private Fornecedor fornecedor;
-	
+	private Vendedor vendedor;
 	@OneToMany(fetch = FetchType.EAGER)
 	private Set<Mercadoria> mercadorias;
 	@OneToMany(fetch = FetchType.EAGER)
@@ -47,32 +46,8 @@ public class Compra implements Serializable {
 	private Set<Peca> pecas;
 	@OneToMany(fetch = FetchType.EAGER)
 	private Set<Outro> outros;
-	private BigDecimal valorCompra;
+	private BigDecimal valorVenda;
 	private FormaPagemento formaPagemento;
 	private Integer numeroParcelas;
-	
-	public Compra(Calendar dataCompra, Fornecedor fornecedor) {
-		super();
-		this.dataCompra = dataCompra;
-		this.fornecedor = fornecedor;
-	}
-
-	public Compra(Calendar dataCompra, Fornecedor fornecedor, Set<Mercadoria> mercadorias) {
-		super();
-		this.dataCompra = dataCompra;
-		this.fornecedor = fornecedor;
-		this.mercadorias = mercadorias;
-	}
-
-	public Compra(Calendar dataCompra, Fornecedor fornecedor, Set<Mercadoria> mercadorias, Set<Produto> produtos,
-			Set<Peca> pecas, Set<Outro> outros) {
-		super();
-		this.dataCompra = dataCompra;
-		this.fornecedor = fornecedor;
-		this.mercadorias = mercadorias;
-		this.produtos = produtos;
-		this.pecas = pecas;
-		this.outros = outros;
-	}
 
 }

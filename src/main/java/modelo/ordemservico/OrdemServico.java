@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 import main.java.enumeracao.FormaPagemento;
 import main.java.enumeracao.StatusOrdemServico;
 import main.java.modelo.cliente.Cliente;
+import main.java.modelo.cobrado.CobradoManutencao;
 import main.java.modelo.empreendimento.Empreendimento;
-import main.java.modelo.itemcobrado.ItemCobradoManutencao;
 
 @NoArgsConstructor
 @Data
@@ -43,7 +43,7 @@ public class OrdemServico implements Serializable {
 	private StatusOrdemServico statusOrdemServico;
 	private FormaPagemento formaPagemento;
 	@OneToOne(fetch = FetchType.EAGER)
-	private ItemCobradoManutencao itemCobradoManutencao;
+	private CobradoManutencao itemCobradoManutencao;
 	private String observacao;
 
 }

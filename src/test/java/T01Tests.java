@@ -21,6 +21,7 @@ import main.java.enumeracao.StatusOrdemServico;
 import main.java.enumeracao.SubSetorComercio;
 import main.java.enumeracao.UnidadeFederativa;
 import main.java.modelo.cliente.Cliente;
+import main.java.modelo.cobrado.CobradoManutencao;
 import main.java.modelo.compra.Compra;
 import main.java.modelo.config.Config;
 import main.java.modelo.contato.Contato;
@@ -30,15 +31,16 @@ import main.java.modelo.estoque.comercio.EstoqueComercio;
 import main.java.modelo.estoque.manutencao.EstoqueManutencao;
 import main.java.modelo.fornecedor.Fornecedor;
 import main.java.modelo.identificacao.Identificacao;
-import main.java.modelo.itemcobrado.ItemCobradoManutencao;
 import main.java.modelo.mercadoria.Mercadoria;
 import main.java.modelo.ordemservico.OrdemServico;
 import main.java.modelo.outro.Outro;
 import main.java.modelo.peca.Peca;
 import main.java.modelo.produto.Produto;
 import main.java.modelo.tecnico.Tecnico;
+import main.java.modelo.venda.Venda;
 import main.java.modelo.vendedor.Vendedor;
 import main.java.servico.cliente.ClienteServico;
+import main.java.servico.cobrado.CobradoManutencaoServico;
 import main.java.servico.comercio.EstoqueComercioServico;
 import main.java.servico.compra.CompraServico;
 import main.java.servico.config.ConfigServico;
@@ -47,7 +49,6 @@ import main.java.servico.empreendimento.EmpreendimentoServico;
 import main.java.servico.endereco.EnderecoServico;
 import main.java.servico.fornecedor.FornecedorServico;
 import main.java.servico.identificacao.IdentificacaoServico;
-import main.java.servico.item.ItemCobradoManutencaoServico;
 import main.java.servico.manutencao.EstoqueManutencaoServico;
 import main.java.servico.mercadoria.MercadoriaServico;
 import main.java.servico.os.OrdemServico_Servico;
@@ -55,6 +56,7 @@ import main.java.servico.outro.OutroServico;
 import main.java.servico.peca.PecaServico;
 import main.java.servico.produto.ProdutoServico;
 import main.java.servico.tecnico.TecnicoServico;
+import main.java.servico.venda.VendaServico;
 import main.java.servico.vendedor.VendedorServico;
 
 @TestMethodOrder(OrderAnnotation.class)
@@ -596,7 +598,10 @@ class T01Tests {
 			quantidades.add(18L);
 			quantidades.add(48L);
 			
-			Set<Mercadoria> mercadorias = new MercadoriaServico().encontrarTodasMercadorias();
+			Set<Mercadoria> mercadorias = new HashSet<>();
+			for (Long id : idMercadorias) {
+				mercadorias.add(new MercadoriaServico().encontrarMercadoria(id));
+			}
 			
 			for (Mercadoria mercadoria : mercadorias) {
 				for (int i = 0; i < idMercadorias.size(); i++) {
@@ -615,102 +620,163 @@ class T01Tests {
 			}
 			
 			Compra compra = new Compra(dataCompra, fornecedorCompra, mercadorias);
+			compra.setValorCompra(new BigDecimal("675.19"));
+			compra.setFormaPagemento(FormaPagemento.DEBITO);
+			compra.setNumeroParcelas(3);
 			assertEquals(46L, new CompraServico().criarCompra(compra));
 		}
 	}
 	
 	@Test
 	@Order(14)
-	void testeCriarEmpreendimento() {
-		Identificacao identificacaoEmpreendimento = new Identificacao();
-		identificacaoEmpreendimento.setNomePessoaFisica("Pessoa um empreendimento");
-		identificacaoEmpreendimento.setRazaoSocial("Razão social um empreendimento");
-		identificacaoEmpreendimento.setNomeFantasia("Nome fantasia um empreendimento");
-		identificacaoEmpreendimento.setCpf("564.852.357-98");
-		identificacaoEmpreendimento.setCnpj("53.548.555/555-72");
-		new IdentificacaoServico().criarIdentificacao(identificacaoEmpreendimento);
-		
-		Endereco enderecoEmpreendimento = new Endereco();
-		enderecoEmpreendimento.setBairro("Centro");
-		enderecoEmpreendimento.setCep("91654-348");
-		enderecoEmpreendimento.setCidade("Cidade empreendimento");
-		enderecoEmpreendimento.setComplemento("Apê");
-		enderecoEmpreendimento.setNumero(6789);
-		enderecoEmpreendimento.setPais("Brasil");
-		enderecoEmpreendimento.setReferencia("Próximo a praça 21 de Maio");
-		enderecoEmpreendimento.setUnidadeFederativa(UnidadeFederativa.PIAUI);
-		new EnderecoServico().criarEndereco(enderecoEmpreendimento);
-		
-		Contato contatoEmpreendimento = new Contato();
-		contatoEmpreendimento.setCelular("+55 (64) 9 4832-9548");
-		contatoEmpreendimento.setEmail("email@empreendimentoum.com.br");
-		contatoEmpreendimento.setSite("www.siteempreendimentoum.com.br");
-		contatoEmpreendimento.setTelefone("(15) 6548-2764");
-		new ContatoServico().criarContato(contatoEmpreendimento);
-		
-		Vendedor v1 = new VendedorServico().encontrarVendedor(44L);
-		Vendedor v2 = new VendedorServico().encontrarVendedor(45L);
-		
-		Set<Vendedor> vendedoresEmpreendimento = new HashSet<>();
-		vendedoresEmpreendimento.add(v1);
-		vendedoresEmpreendimento.add(v2);
-		
-		Tecnico t1 = new TecnicoServico().encontrarTecnico(36L);
-		Tecnico t2 = new TecnicoServico().encontrarTecnico(37L);
-		
-		Set<Tecnico> tecnicosEmpreendimento = new HashSet<>();
-		tecnicosEmpreendimento.add(t1);
-		tecnicosEmpreendimento.add(t2);
-		
-		Empreendimento empreendimento = new Empreendimento();
-		empreendimento.setIdentificacao(new IdentificacaoServico().encontrarIdentificacao(47L));
-		empreendimento.setEndereco(new EnderecoServico().encontrarEndereco(48L));
-		empreendimento.setContato(new ContatoServico().encotrarContato(49L));
-		empreendimento.setVendedores(vendedoresEmpreendimento);
-		empreendimento.setTecnicos(tecnicosEmpreendimento);
-		assertEquals(50L, new EmpreendimentoServico().criarEmpreendimento(empreendimento));
+	void testeCriarVenda() {
+		Config configuracaoCompraComercio = new ConfigServico().encontrarConfig(1L);
+		if (configuracaoCompraComercio.getSetor() == Setor.COMERCIO) {
+			Calendar dataVenda = Calendar.getInstance();
+			dataVenda.set(Calendar.YEAR, Calendar.MONTH, Calendar.DATE, Calendar.HOUR_OF_DAY, Calendar.MINUTE);
+			
+			List<Long> idMercadorias = new ArrayList<>();
+			idMercadorias.add(8L);
+			idMercadorias.add(9L);
+			
+			List<Long> quantidades = new ArrayList<>();
+			quantidades.add(7L);
+			quantidades.add(12L);
+			
+			Set<Mercadoria> mercadorias = new HashSet<>();
+			for (Long id : idMercadorias) {
+				mercadorias.add(new MercadoriaServico().encontrarMercadoria(id));
+			}
+			
+			for (Mercadoria mercadoria : mercadorias) {
+				for (int i = 0; i < idMercadorias.size(); i++) {
+					for (int j = 0; j < quantidades.size(); j++) {
+						if (i == j) {
+							if (mercadoria.getIdMercadoria().equals( idMercadorias.get(idMercadorias.size() - (idMercadorias.size() - i)) )) {
+								mercadoria.setQuantidadeMercadoriaEstoque(
+										mercadoria.getQuantidadeMercadoriaEstoque() - quantidades.get(quantidades.size() - (quantidades.size() - j)));
+								new MercadoriaServico().atualizarMercadoria(mercadoria);
+							}
+						}
+					}
+				}
+			}
+			
+			Venda venda = new Venda();
+			venda.setDataVenda(dataVenda);
+			venda.setVendedor(new VendedorServico().encontrarVendedor(45L));
+			venda.setMercadorias(mercadorias);
+			venda.setValorVenda(new BigDecimal("102.18"));
+			venda.setFormaPagemento(FormaPagemento.DINHEIRO);
+			venda.setNumeroParcelas(0);
+			
+			assertEquals(47L, new VendaServico().criarVenda(venda));
+		}
+
 	}
 	
-	@Test
-	@Order(15)
-	void testeCriarOrdemServico() {
-		Calendar dataAberturaOS = Calendar.getInstance();
-		dataAberturaOS.set(2021, 3, 5);
-		Calendar dataPrevisaoTerminoOS = Calendar.getInstance();
-		dataAberturaOS.set(2021, 3, 10);
-		Calendar dataFinalizacaoOS = Calendar.getInstance();
-		dataAberturaOS.set(2021, 3, 12);
-		Calendar dataInicioGarantia = Calendar.getInstance();
-		dataAberturaOS.set(2021, 3, 15);
-		Calendar dataTerminoGarantia = Calendar.getInstance();
-		dataAberturaOS.set(2021, 6, 15);
-		
-		Cliente clienteEmpreendimento = new ClienteServico().encontrarCliente(28L);
-		
-		Set<Peca> pecasManutencao = new HashSet<>();
-		pecasManutencao.add(new PecaServico().encontrarPeca(12L));
-		pecasManutencao.add(new PecaServico().encontrarPeca(13L));
-		
-		ItemCobradoManutencao itemCobradoManutencao = new ItemCobradoManutencao();
-		itemCobradoManutencao.setPecas(pecasManutencao);
-		
-		new ItemCobradoManutencaoServico().criarItemCobradoManutencao(itemCobradoManutencao);
-		
-		OrdemServico ordemServico = new OrdemServico();
-		ordemServico.setEmpreendimento(new EmpreendimentoServico().encontrarEmpreendimento(50L));
-		ordemServico.setDataAberturaOS(dataAberturaOS);
-		ordemServico.setDataAberturaOS(dataAberturaOS);
-		ordemServico.setDataPrevisaoTerminoOS(dataPrevisaoTerminoOS);
-		ordemServico.setDataFinalizacaoOS(dataFinalizacaoOS);
-		ordemServico.setDataInicioGarantia(dataInicioGarantia);
-		ordemServico.setDataTerminoGarantia(dataTerminoGarantia);
-		ordemServico.setCliente(clienteEmpreendimento);
-		ordemServico.setStatusOrdemServico(StatusOrdemServico.FINALIZADA);
-		ordemServico.setFormaPagemento(FormaPagemento.DINHEIRO);
-		ordemServico.setItemCobradoManutencao(new ItemCobradoManutencaoServico().encontrarItemCobradoManutencao(51L));
-		ordemServico.setObservacao("Observação um");
-		
-		assertEquals(52L, new OrdemServico_Servico().criarOrdemServico(ordemServico));
-	}
+	
+	
+//	@Test
+//	@Order(14)
+//	void testeCriarEmpreendimento() {
+//		Identificacao identificacaoEmpreendimento = new Identificacao();
+//		identificacaoEmpreendimento.setNomePessoaFisica("Pessoa um empreendimento");
+//		identificacaoEmpreendimento.setRazaoSocial("Razão social um empreendimento");
+//		identificacaoEmpreendimento.setNomeFantasia("Nome fantasia um empreendimento");
+//		identificacaoEmpreendimento.setCpf("564.852.357-98");
+//		identificacaoEmpreendimento.setCnpj("53.548.555/555-72");
+//		new IdentificacaoServico().criarIdentificacao(identificacaoEmpreendimento);
+//		
+//		Endereco enderecoEmpreendimento = new Endereco();
+//		enderecoEmpreendimento.setBairro("Centro");
+//		enderecoEmpreendimento.setCep("91654-348");
+//		enderecoEmpreendimento.setCidade("Cidade empreendimento");
+//		enderecoEmpreendimento.setComplemento("Apê");
+//		enderecoEmpreendimento.setNumero(6789);
+//		enderecoEmpreendimento.setPais("Brasil");
+//		enderecoEmpreendimento.setReferencia("Próximo a praça 21 de Maio");
+//		enderecoEmpreendimento.setUnidadeFederativa(UnidadeFederativa.PIAUI);
+//		new EnderecoServico().criarEndereco(enderecoEmpreendimento);
+//		
+//		Contato contatoEmpreendimento = new Contato();
+//		contatoEmpreendimento.setCelular("+55 (64) 9 4832-9548");
+//		contatoEmpreendimento.setEmail("email@empreendimentoum.com.br");
+//		contatoEmpreendimento.setSite("www.siteempreendimentoum.com.br");
+//		contatoEmpreendimento.setTelefone("(15) 6548-2764");
+//		new ContatoServico().criarContato(contatoEmpreendimento);
+//		
+//		Vendedor v1 = new VendedorServico().encontrarVendedor(44L);
+//		Vendedor v2 = new VendedorServico().encontrarVendedor(45L);
+//		
+//		Set<Vendedor> vendedoresEmpreendimento = new HashSet<>();
+//		vendedoresEmpreendimento.add(v1);
+//		vendedoresEmpreendimento.add(v2);
+//		
+//		Tecnico t1 = new TecnicoServico().encontrarTecnico(36L);
+//		Tecnico t2 = new TecnicoServico().encontrarTecnico(37L);
+//		
+//		Set<Tecnico> tecnicosEmpreendimento = new HashSet<>();
+//		tecnicosEmpreendimento.add(t1);
+//		tecnicosEmpreendimento.add(t2);
+//		
+//		Empreendimento empreendimento = new Empreendimento();
+//		empreendimento.setIdentificacao(new IdentificacaoServico().encontrarIdentificacao(47L));
+//		empreendimento.setEndereco(new EnderecoServico().encontrarEndereco(48L));
+//		empreendimento.setContato(new ContatoServico().encotrarContato(49L));
+//		empreendimento.setVendedores(vendedoresEmpreendimento);
+//		empreendimento.setTecnicos(tecnicosEmpreendimento);
+//		assertEquals(50L, new EmpreendimentoServico().criarEmpreendimento(empreendimento));
+//	}
+//	
+//	@Test
+//	@Order(15)
+//	void testeCriarOrdemServico() {
+//		Calendar dataAberturaOS = Calendar.getInstance();
+//		dataAberturaOS.set(2021, 3, 5);
+//		Calendar dataPrevisaoTerminoOS = Calendar.getInstance();
+//		dataAberturaOS.set(2021, 3, 10);
+//		Calendar dataFinalizacaoOS = Calendar.getInstance();
+//		dataAberturaOS.set(2021, 3, 12);
+//		Calendar dataInicioGarantia = Calendar.getInstance();
+//		dataAberturaOS.set(2021, 3, 15);
+//		Calendar dataTerminoGarantia = Calendar.getInstance();
+//		dataAberturaOS.set(2021, 6, 15);
+//		
+//		Cliente clienteEmpreendimento = new ClienteServico().encontrarCliente(28L);
+//		
+//		List<Long> idPecas = new ArrayList<>();
+//		idPecas.add(12L);
+//		idPecas.add(13L);
+//		
+//		Set<Peca> pecasManutencao = new HashSet<>();
+//		for (Long id: idPecas) {
+//			pecasManutencao.add(new PecaServico().encontrarPeca(id));
+//		}
+//		
+//		CobradoManutencao cobradoManutencao = new CobradoManutencao();
+//		cobradoManutencao.setPecas(pecasManutencao);
+//		cobradoManutencao.setValorConserto(new BigDecimal("250.87"));
+//		cobradoManutencao.setFormaPagemento(FormaPagemento.DINHEIRO);
+//		cobradoManutencao.setNumeroParcelas(5);
+//		
+//		new CobradoManutencaoServico().criarCobradoManutencao(cobradoManutencao);
+//		
+//		OrdemServico ordemServico = new OrdemServico();
+//		ordemServico.setEmpreendimento(new EmpreendimentoServico().encontrarEmpreendimento(50L));
+//		ordemServico.setDataAberturaOS(dataAberturaOS);
+//		ordemServico.setDataAberturaOS(dataAberturaOS);
+//		ordemServico.setDataPrevisaoTerminoOS(dataPrevisaoTerminoOS);
+//		ordemServico.setDataFinalizacaoOS(dataFinalizacaoOS);
+//		ordemServico.setDataInicioGarantia(dataInicioGarantia);
+//		ordemServico.setDataTerminoGarantia(dataTerminoGarantia);
+//		ordemServico.setCliente(clienteEmpreendimento);
+//		ordemServico.setStatusOrdemServico(StatusOrdemServico.FINALIZADA);
+//		ordemServico.setFormaPagemento(FormaPagemento.DINHEIRO);
+//		ordemServico.setItemCobradoManutencao(new CobradoManutencaoServico().encontrarCobradoManutencao(51L));
+//		ordemServico.setObservacao("Observação um");
+//		
+//		assertEquals(52L, new OrdemServico_Servico().criarOrdemServico(ordemServico));
+//	}
 
 }
