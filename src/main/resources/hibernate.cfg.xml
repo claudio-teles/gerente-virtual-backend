@@ -58,6 +58,10 @@
 		<mapping class="main.java.modelo.vendedor.Vendedor"/>
 		<mapping class="main.java.modelo.compra.Compra"/>
 		<mapping class="main.java.modelo.venda.Venda"/>
+		<mapping class="main.java.modelo.financa.contapagar.ContaPagar"/>
+		<mapping class="main.java.modelo.financa.contareceber.ContaReceber"/>
+		<mapping class="main.java.modelo.financa.saidadinheiro.SaidaDinheiro"/>
+		<mapping class="main.java.modelo.financa.entrada.EntradaDinheiro"/>
 		<mapping class="main.java.modelo.empreendimento.Empreendimento"/>
 		<mapping class="main.java.modelo.cobrado.CobradoManutencao"/>
 		<mapping class="main.java.modelo.ordemservico.OrdemServico"/>
