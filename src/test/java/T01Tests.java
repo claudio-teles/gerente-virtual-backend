@@ -1,6 +1,7 @@
 package test.java;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -8,6 +9,8 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.persistence.NoResultException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -452,11 +455,13 @@ class T01Tests {
 		cliente1.setIdentificacao(new IdentificacaoServico().encontrarIdentificacao(22L));
 		cliente1.setEndereco(new EnderecoServico().encontrarEndereco(24L));
 		cliente1.setContato(new ContatoServico().encotrarContato(26L));
+		cliente1.setIdade(18);
 		
 		cliente2 = new Cliente();
 		cliente2.setIdentificacao(new IdentificacaoServico().encontrarIdentificacao(23L));
 		cliente2.setEndereco(new EnderecoServico().encontrarEndereco(25L));
 		cliente2.setContato(new ContatoServico().encotrarContato(27L));
+		cliente2.setIdade(45);
 		
 		assertEquals(28L, new ClienteServico().criarCliente(cliente1));
 		assertEquals(29L, new ClienteServico().criarCliente(cliente2));
@@ -844,6 +849,51 @@ class T01Tests {
 		ordemServico.setObservacao("Observação um");
 		
 		assertEquals(57L, new OrdemServico_Servico().criarOrdemServico(ordemServico));
+	}
+	
+	@Test
+	@Order(21)
+	void testeEncontrarClienteIdade() {
+		Cliente cliente = new ClienteServico().encontrarCliente(18);
+		assertEquals(28L, cliente.getIdCliente());
+	}
+	
+	@Test
+	@Order(22)
+	void testeEncontrarClienteIdadeIdInexistente() {
+		assertThrows(NoResultException.class, () -> new ClienteServico().encontrarCliente(19).getIdCliente());
+	}
+	
+	@Test
+	@Order(23)
+	void testeEncontrarClientesIdades() {
+		List<Cliente> clientes = new ClienteServico().encontrarClientesEntre(18, 45);
+		assertEquals(2, clientes.size());
+	}
+	
+	@Test
+	@Order(24)
+	void testEncontrarIdentificacao() {
+		assertEquals(22L, new ClienteServico().encontrarIdentificacao(28L).getIdIdentificacao());
+	}
+	
+	@Test
+	@Order(25)
+	void testeEncontrarEndereco() {
+		assertEquals(24L, new ClienteServico().encontrarEndereco(28L).getIdEndereco());
+	}
+	
+	@Test
+	@Order(26)
+	void testeEncontrarContato() {
+		assertEquals(26L, new ClienteServico().encontrarContato(28L).getIdContato());
+	}
+	
+	@Test
+	@Order(27)
+	void testeEncontrarClientesIntervaloInexistentexistente() {
+		List<Cliente> clientes = new ClienteServico().encontrarClientesEntre(10, 15);
+		assertEquals(0, clientes.size());
 	}
 
 }

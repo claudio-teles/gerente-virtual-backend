@@ -34,5 +34,6 @@ public class Cliente implements Serializable {
 	private Endereco endereco;
 	@OneToOne(fetch = FetchType.EAGER)
 	private Contato contato;
+	private Integer idade;
 
 }
