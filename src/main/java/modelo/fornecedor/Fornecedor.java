@@ -30,11 +30,11 @@ public class Fornecedor implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idFornecedor;
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Identificacao identificacaoFornecedor;
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Contato contatoFornecedor;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Endereco> enderecosFornecedor;
 
 }

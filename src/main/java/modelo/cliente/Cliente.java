@@ -28,11 +28,11 @@ public class Cliente implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idCliente;
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Identificacao identificacao;
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Endereco endereco;
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Contato contato;
 	private Integer idade;
 

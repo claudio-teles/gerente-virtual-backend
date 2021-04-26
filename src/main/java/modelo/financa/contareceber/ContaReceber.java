@@ -31,7 +31,7 @@ public class ContaReceber implements Serializable {
 	private BigDecimal valorRecebido;
 	private Calendar dataRecebimento;
 	private Integer numeroParcelasRestantes;
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Venda venda;
 
 }

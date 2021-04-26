@@ -48,4 +48,19 @@ public class EstoqueComercioServico implements IEstoqueComercio {
 		return estoqueComercio.getMercadorias();
 	}
 
+	@Override
+	public Boolean deletarEstoqueMercadoria(EstoqueComercio estoqueComercio) {
+		if (estoqueComercio.getIdEstoqueComercio() != null) {
+			Session sdem = Sessao.getSessionFactory().openSession();
+			sdem.beginTransaction();
+			
+			sdem.delete(estoqueComercio);
+			
+			sdem.getTransaction().commit();
+			sdem.close();
+			return false;
+		}
+		return false;
+	}
+
 }

@@ -792,9 +792,9 @@ class T01Tests {
 		tecnicosEmpreendimento.add(t2);
 		
 		Empreendimento empreendimento = new Empreendimento();
-		empreendimento.setIdentificacao(new IdentificacaoServico().encontrarIdentificacao(47L));
-		empreendimento.setEndereco(new EnderecoServico().encontrarEndereco(48L));
-		empreendimento.setContato(new ContatoServico().encotrarContato(49L));
+		empreendimento.setIdentificacao(new IdentificacaoServico().encontrarIdentificacao(52L));
+		empreendimento.setEndereco(new EnderecoServico().encontrarEndereco(53L));
+		empreendimento.setContato(new ContatoServico().encotrarContato(54L));
 		empreendimento.setVendedores(vendedoresEmpreendimento);
 		empreendimento.setTecnicos(tecnicosEmpreendimento);
 		assertEquals(55L, new EmpreendimentoServico().criarEmpreendimento(empreendimento));

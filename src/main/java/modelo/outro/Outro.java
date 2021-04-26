@@ -37,7 +37,7 @@ public class Outro implements Serializable {
 	
 	private BigDecimal precoAvista;
 	private BigDecimal precoParcelado;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Fornecedor> fornecedoresOutros;
 	private String fotoOutro;
 	

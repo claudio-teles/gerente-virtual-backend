@@ -8,5 +8,6 @@ public interface IManutencao {
 	
 	public Serializable criarEstoqueManutencao(EstoqueManutencao estoqueManutencao);
 	public EstoqueManutencao encontrarEstoqueManutencao(Long idEstoqueManutencao);
+	public Boolean deletarEstoqueManutencao(EstoqueManutencao estoqueManutencao);
 
 }

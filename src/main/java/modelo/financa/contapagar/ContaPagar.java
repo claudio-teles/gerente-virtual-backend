@@ -31,7 +31,7 @@ public class ContaPagar implements Serializable {
 	private BigDecimal valorPago;
 	private Calendar dataPagamento;
 	private Integer numeroParcelasRestantes;
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Compra compra;
 	private String outroGasto;
 

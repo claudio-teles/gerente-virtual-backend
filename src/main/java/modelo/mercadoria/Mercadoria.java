@@ -45,7 +45,7 @@ public class Mercadoria implements Serializable {
 	private Calendar dataVencimentoMercadoria;
 	private SubSetorComercio subSetorComercio;
 	private Long quantidadeMercadoriaEstoque;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Fornecedor> fornecedoresMercadoria;
 	
 	public Mercadoria(String codigoBarraMercadoria, String nomeMercadoria, String descricaoCaracteristicasMercadoria,

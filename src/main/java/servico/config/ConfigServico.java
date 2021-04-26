@@ -34,4 +34,32 @@ public class ConfigServico implements IConfig {
 		return config;
 	}
 
+	@Override
+	public Boolean atualizarConfig(Config config) {
+		if (config.getIdConfig() != null) {
+			Session sA = Sessao.getSessionFactory().openSession();
+			sA.beginTransaction();
+			
+			sA.saveOrUpdate(config);
+			
+			sA.getTransaction().commit();
+			sA.close();
+		}
+		return false;
+	}
+
+	@Override
+	public Boolean deletarConfig(Config config) {
+		if (config.getIdConfig() != null) {
+			Session sA = Sessao.getSessionFactory().openSession();
+			sA.beginTransaction();
+			
+			sA.saveOrUpdate(config);
+			
+			sA.getTransaction().commit();
+			sA.close();
+		}
+		return false;
+	}
+
 }

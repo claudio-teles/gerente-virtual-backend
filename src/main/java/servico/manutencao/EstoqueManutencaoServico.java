@@ -34,4 +34,19 @@ public class EstoqueManutencaoServico implements IManutencao {
 		return estoqueManutencao;
 	}
 
+	@Override
+	public Boolean deletarEstoqueManutencao(EstoqueManutencao estoqueManutencao) {
+		if (estoqueManutencao.getIdEstoqueManutencao() != null) {
+			Session sdem = Sessao.getSessionFactory().openSession();
+			sdem.beginTransaction();
+			
+			sdem.delete(estoqueManutencao);
+			
+			sdem.getTransaction().commit();
+			sdem.close();
+			return false;
+		}
+		return false;
+	}
+
 }

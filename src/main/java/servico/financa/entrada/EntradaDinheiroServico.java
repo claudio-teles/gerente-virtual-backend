@@ -1,6 +1,10 @@
 package main.java.servico.financa.entrada;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.List;
+
+import javax.persistence.Query;
 
 import org.hibernate.Session;
 
@@ -32,6 +36,68 @@ public class EntradaDinheiroServico implements IEntradaDinheiro {
 		seed.getTransaction().commit();
 		seed.close();
 		return entradaDinheiro;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<EntradaDinheiro> encontrarTodasEntradasDinheiro() {
+		Session seted = Sessao.getSessionFactory().openSession();
+		seted.beginTransaction();
+		
+		Query queryLseted = seted.createQuery("FROM EntradaDinheiro ORDER BY idEntradaDinheiro ASC");
+		List<EntradaDinheiro> entradasDinheiro = queryLseted.getResultList();
+		
+		seted.getTransaction().commit();
+		seted.close();
+		return entradasDinheiro;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<EntradaDinheiro> encontrarTodasEntradasDinheiro(Calendar dataEntradaFimDia) {
+		if (!dataEntradaFimDia.equals(null)) {
+			Session seted = Sessao.getSessionFactory().openSession();
+			seted.beginTransaction();
+			
+			Query queryLseted = seted.createQuery("FROM EntradaDinheiro WHERE dataEntradaFimDia = :dataEntradaFimDia ORDER BY idEntradaDinheiro ASC");
+			queryLseted.setParameter("dataEntradaFimDia", dataEntradaFimDia);
+			
+			List<EntradaDinheiro> entradasDinheiro = queryLseted.getResultList();
+			seted.getTransaction().commit();
+			seted.close();
+			return entradasDinheiro;
+		}
+		return null;
+	}
+
+	@Override
+	public Boolean atualizarEntradaDinheiro(EntradaDinheiro entradaDinheiro) {
+		if (entradaDinheiro.getIdEntradaDinheiro() != null) {
+			Session saed = Sessao.getSessionFactory().openSession();
+			saed.beginTransaction();
+			
+			saed.saveOrUpdate(entradaDinheiro);
+			
+			saed.getTransaction().commit();
+			saed.close();
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Boolean deletaarEntradaDinheiro(EntradaDinheiro entradaDinheiro) {
+		if (entradaDinheiro.getIdEntradaDinheiro() != null) {
+			Session sded = Sessao.getSessionFactory().openSession();
+			sded.beginTransaction();
+			
+			sded.delete(entradaDinheiro);
+			
+			sded.getTransaction().commit();
+			sded.close();
+			return true;
+		}
+		return false;
 	}
 
 }

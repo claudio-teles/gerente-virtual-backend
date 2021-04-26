@@ -36,15 +36,15 @@ public class Venda implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idVenda;
 	private Calendar dataVenda;
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Vendedor vendedor;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Mercadoria> mercadorias;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Produto> produtos;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Peca> pecas;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Outro> outros;
 	private BigDecimal valorVenda;
 	private FormaPagemento formaPagemento;

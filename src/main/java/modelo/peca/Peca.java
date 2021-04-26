@@ -31,7 +31,7 @@ public class Peca implements Serializable {
 	private String nomeDaPeca;
 	private String descricao;
 	private String fabricante;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Fornecedor> fornecedoresPeca;
 	private String fotoPeca;
 	private Long quantidadePeca;

@@ -8,5 +8,7 @@ public interface IConfig {
 	
 	public Serializable criarConfig(Config config);
 	public Config encontrarConfig(Long idConfig);
+	public Boolean atualizarConfig(Config config);
+	public Boolean deletarConfig(Config config);
 
 }

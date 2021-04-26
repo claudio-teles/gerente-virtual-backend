@@ -1,6 +1,9 @@
 package main.java.servico.fornecedor;
 
 import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Query;
 
 import org.hibernate.Session;
 
@@ -32,6 +35,50 @@ public class FornecedorServico implements IFornecedor {
 		sC.getTransaction().commit();
 		sC.close();
 		return fornecedor;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Fornecedor> encontrarFornecedores() {
+		Session sef = Sessao.getSessionFactory().openSession();
+		sef.beginTransaction();
+		
+		Query queryLsef = sef.createQuery("FROM Fornecedor WHERE ORDER BY idFornecedor ASC");
+		List<Fornecedor> fornecedores = queryLsef.getResultList();
+		
+		sef.getTransaction().commit();
+		sef.close();
+		return fornecedores;
+	}
+
+	@Override
+	public Boolean atualizarFornecedor(Fornecedor fornecedor) {
+		if (fornecedor.getIdFornecedor() != null) {
+			Session sA = Sessao.getSessionFactory().openSession();
+			sA.beginTransaction();
+			
+			sA.saveOrUpdate(fornecedor);;
+			
+			sA.getTransaction().commit();
+			sA.close();
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Boolean deletararFornecedor(Fornecedor fornecedor) {
+		if (fornecedor.getIdFornecedor() != null) {
+			Session sD = Sessao.getSessionFactory().openSession();
+			sD.beginTransaction();
+			
+			sD.delete(fornecedor);
+			
+			sD.getTransaction().commit();
+			sD.close();
+			return true;
+		}
+		return false;
 	}
 
 }

@@ -33,7 +33,7 @@ public class Produto implements Serializable {
 	private String nomeDoProduto;
 	private String descricao;
 	private String fabricante;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Fornecedor> fornecedoresProduto;
 	private String fotoProduto;
 	private Long quantidadeProduto;

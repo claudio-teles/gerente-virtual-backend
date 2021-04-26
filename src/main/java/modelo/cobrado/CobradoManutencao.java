@@ -31,11 +31,11 @@ public class CobradoManutencao implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idCobradoManutencao;
 	private String descricaoServicofeito;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Peca> pecas;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Produto> produtos;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Outro> outros;
 	private BigDecimal valorConserto;
 	private FormaPagemento formaPagemento;

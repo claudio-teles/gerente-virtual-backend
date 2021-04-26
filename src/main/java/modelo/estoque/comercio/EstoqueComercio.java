@@ -27,7 +27,7 @@ public class EstoqueComercio implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idEstoqueComercio;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Mercadoria> mercadorias;
 
 }

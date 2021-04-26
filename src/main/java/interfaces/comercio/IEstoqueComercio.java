@@ -11,5 +11,6 @@ public interface IEstoqueComercio {
 	public Serializable criarEstoqueMercadoriaComercio(EstoqueComercio estoqueComercio);
 	public EstoqueComercio encontrarMercadoriaEstoque(Long idMercadoriaEstoqueComercio);
 	public Set<Mercadoria> encontrarTodasMercadoriaEstoque(Long idMercadoriaEstoqueComercio);
+	public Boolean deletarEstoqueMercadoria(EstoqueComercio estoqueComercio);
 
 }

@@ -31,18 +31,18 @@ public class OrdemServico implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idOrdemServico;
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Empreendimento empreendimento;
 	private Calendar dataAberturaOS;
 	private Calendar dataPrevisaoTerminoOS;
 	private Calendar dataFinalizacaoOS;
 	private Calendar dataInicioGarantia;
 	private Calendar dataTerminoGarantia;
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Cliente cliente;
 	private StatusOrdemServico statusOrdemServico;
 	private FormaPagemento formaPagemento;
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
 	private CobradoManutencao itemCobradoManutencao;
 	private String observacao;
 

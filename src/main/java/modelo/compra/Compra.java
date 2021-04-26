@@ -36,16 +36,16 @@ public class Compra implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idCompra;
 	private Calendar dataCompra;
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Fornecedor fornecedor;
 	
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Mercadoria> mercadorias;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Produto> produtos;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Peca> pecas;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Outro> outros;
 	private BigDecimal valorCompra;
 	private FormaPagemento formaPagemento;

@@ -1,6 +1,10 @@
 package main.java.servico.compra;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.List;
+
+import javax.persistence.Query;
 
 import org.hibernate.Session;
 
@@ -32,6 +36,65 @@ public class CompraServico implements ICompra {
 		sec.getTransaction().commit();
 		sec.close();
 		return compra;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Compra> listarTodasCompras() {
+		Session sltc = Sessao.getSessionFactory().openSession();
+		sltc.beginTransaction();
+		
+		Query queryLtc = sltc.createQuery("FROM Compra ORDER BY idCompra ASC");
+		List<Compra> compras = queryLtc.getResultList();
+		
+		sltc.getTransaction().commit();
+		sltc.close();
+		return compras;
+	}
+
+	@Override
+	public List<Compra> listarTodasCompras(Calendar dataCompra) {
+		Session sltc = Sessao.getSessionFactory().openSession();
+		sltc.beginTransaction();
+		
+		Query queryLtc = sltc.createQuery("FROM Compra WHERE dataCompra = :dataCompra ORDER BY idCompra ASC");
+		queryLtc.setParameter("dataCompra", dataCompra);
+		@SuppressWarnings("unchecked")
+		List<Compra> compras = queryLtc.getResultList();
+		
+		sltc.getTransaction().commit();
+		sltc.close();
+		return compras;
+	}
+
+	@Override
+	public Boolean atualizarCompra(Compra compra) {
+		if (compra.getIdCompra() != null) {
+			Session sac = Sessao.getSessionFactory().openSession();
+			sac.beginTransaction();
+			
+			sac.saveOrUpdate(compra);
+			
+			sac.getTransaction().commit();
+			sac.close();
+			return false;
+		}
+		return false;
+	}
+
+	@Override
+	public Boolean deletarCompra(Compra compra) {
+		if (compra.getIdCompra() != null) {
+			Session sdc = Sessao.getSessionFactory().openSession();
+			sdc.beginTransaction();
+			
+			sdc.delete(compra);
+			
+			sdc.getTransaction().commit();
+			sdc.close();
+			return false;
+		}
+		return false;
 	}
 
 }
