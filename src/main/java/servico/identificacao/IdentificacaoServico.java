@@ -1,6 +1,9 @@
 package main.java.servico.identificacao;
 
 import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Query;
 
 import org.hibernate.Session;
 
@@ -32,6 +35,84 @@ public class IdentificacaoServico implements I_Identificacao {
 		sI.getTransaction().commit();
 		sI.close();
 		return identificacao;
+	}
+
+	@Override
+	public Identificacao encontrarIdentificacaoCnpj(String cnpj) {
+		if ( !(cnpj.equals("") && cnpj.equals(null)) ) {
+			Session sid = Sessao.getSessionFactory().openSession();
+			sid.beginTransaction();
+			Query queryLsid = sid.createQuery("FROM Identificacao WHERE cnpj = :cnpj");
+			queryLsid.setParameter("cnpj", cnpj);
+			
+			Identificacao identificacao = (Identificacao) queryLsid.getSingleResult();
+			
+			sid.getTransaction().commit();
+			sid.close();
+			return identificacao;
+		}
+		return null;
+	}
+
+	@Override
+	public Identificacao encontrarIdentificacaoCpf(String cpf) {
+		if ( !(cpf.equals("") && cpf.equals(null)) ) {
+			Session sid = Sessao.getSessionFactory().openSession();
+			sid.beginTransaction();
+			Query queryLsid = sid.createQuery("FROM Identificacao WHERE cpf = :cpf");
+			queryLsid.setParameter("cpf", cpf);
+			
+			Identificacao identificacao = (Identificacao) queryLsid.getSingleResult();
+			
+			sid.getTransaction().commit();
+			sid.close();
+			return identificacao;
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Identificacao> encontrarTodasIdentificacao() {
+		Session sid = Sessao.getSessionFactory().openSession();
+		sid.beginTransaction();
+		
+		Query queryLsid = sid.createQuery("FROM Identificacao ORDER BY idIdentificacao ASC");
+		List<Identificacao> identificacoes = queryLsid.getResultList();
+		
+		sid.getTransaction().commit();
+		sid.close();
+		return identificacoes;
+	}
+
+	@Override
+	public Boolean atualizarIdentificacao(Identificacao identificacao) {
+		if (identificacao.getIdIdentificacao() != null) {
+			Session sI = Sessao.getSessionFactory().openSession();
+			sI.beginTransaction();
+			
+			sI.saveOrUpdate(identificacao);
+			
+			sI.getTransaction().commit();
+			sI.close();
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Boolean deletarIdentificacao(Identificacao identificacao) {
+		if (identificacao.getIdIdentificacao() != null) {
+			Session sI = Sessao.getSessionFactory().openSession();
+			sI.beginTransaction();
+			
+			sI.delete(identificacao);
+			
+			sI.getTransaction().commit();
+			sI.close();
+			return true;
+		}
+		return false;
 	}
 
 }

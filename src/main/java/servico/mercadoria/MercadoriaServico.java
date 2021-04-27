@@ -1,6 +1,7 @@
 package main.java.servico.mercadoria;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -78,6 +79,96 @@ public class MercadoriaServico implements IMercadoria {
 			return "Atualizou! ";
 		}
 		return "Não atualizou! ";
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Mercadoria encontrarMercadoriaCodBarra(String codigoBarraMercadoria) {
+		if ( !(codigoBarraMercadoria.equals("") && codigoBarraMercadoria.equals(null)) ) {
+			Session sem = Sessao.getSessionFactory().openSession();
+			sem.beginTransaction();
+			
+			Query querysem = sem.createQuery("FROM Mercadoria WHERE codigoBarraMercadoria = :codigoBarraMercadoria");
+			querysem.setParameter("codigoBarraMercadoria", codigoBarraMercadoria);
+			
+			Mercadoria mercadoria = (Mercadoria) querysem.getSingleResult();
+			
+			sem.getTransaction().commit();
+			sem.close();
+			return mercadoria;
+		}
+		return null;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public List<Mercadoria> listarMercadoriasDataAquisicao(Calendar dataAquisicaoMercadoria) {
+		if ( !(dataAquisicaoMercadoria.equals(null)) ) {
+			Session slmd = Sessao.getSessionFactory().openSession();
+			slmd.beginTransaction();
+			
+			Query queryLslmd = slmd.createQuery(
+					"FROM Mercadoria WHERE dataAquisicaoMercadoria = :dataAquisicaoMercadoria ORDER BY idMercadoria ASC");
+			queryLslmd.setParameter("dataAquisicaoMercadoria", dataAquisicaoMercadoria);
+			
+			List<Mercadoria> mercadorias = queryLslmd.getResultList();
+			
+			slmd.getTransaction().commit();
+			slmd.close();
+			return mercadorias;
+		}
+		return null;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public List<Mercadoria> listarMercadoriasDataVencimento(Calendar dataVencimentoMercadoria) {
+		if ( !(dataVencimentoMercadoria.equals(null)) ) {
+			Session slmd = Sessao.getSessionFactory().openSession();
+			slmd.beginTransaction();
+			
+			Query queryLslmd = slmd.createQuery(
+					"FROM Mercadoria WHERE dataVencimentoMercadoria = :dataVencimentoMercadoria ORDER BY idMercadoria ASC");
+			queryLslmd.setParameter("dataVencimentoMercadoria", dataVencimentoMercadoria);
+			
+			List<Mercadoria> mercadorias = queryLslmd.getResultList();
+			
+			slmd.getTransaction().commit();
+			slmd.close();
+			return mercadorias;
+		}
+		return null;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public List<Mercadoria> listarMercadorias() {
+		Session slmd = Sessao.getSessionFactory().openSession();
+		slmd.beginTransaction();
+		
+		Query queryLslmd = slmd.createQuery(
+				"FROM Mercadoria ORDER BY idMercadoria ASC");
+		
+		List<Mercadoria> mercadorias = queryLslmd.getResultList();
+		
+		slmd.getTransaction().commit();
+		slmd.close();
+		return mercadorias;
+	}
+
+	@Override
+	public Boolean deletarMercadoria(Mercadoria mercadoria) {
+		if (mercadoria.getIdMercadoria() != null) {
+			Session sM = Sessao.getSessionFactory().openSession();
+			sM.beginTransaction();
+			
+			sM.delete(mercadoria);
+			
+			sM.getTransaction().commit();
+			sM.close();
+			return true;
+		}
+		return false;
 	}
 
 }
