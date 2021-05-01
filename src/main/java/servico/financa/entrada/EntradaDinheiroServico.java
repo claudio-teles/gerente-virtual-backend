@@ -40,11 +40,14 @@ public class EntradaDinheiroServico implements IEntradaDinheiro {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<EntradaDinheiro> encontrarTodasEntradasDinheiro() {
+	public List<EntradaDinheiro> encontrarTodasEntradasDinheiroPaginacao(Integer inicio, Integer maximo) {
 		Session seted = Sessao.getSessionFactory().openSession();
 		seted.beginTransaction();
 		
 		Query queryLseted = seted.createQuery("FROM EntradaDinheiro ORDER BY idEntradaDinheiro ASC");
+		queryLseted.setFirstResult(inicio);
+		queryLseted.setMaxResults(maximo);
+		
 		List<EntradaDinheiro> entradasDinheiro = queryLseted.getResultList();
 		
 		seted.getTransaction().commit();
@@ -54,20 +57,18 @@ public class EntradaDinheiroServico implements IEntradaDinheiro {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<EntradaDinheiro> encontrarTodasEntradasDinheiro(Calendar dataEntradaFimDia) {
-		if (!dataEntradaFimDia.equals(null)) {
-			Session seted = Sessao.getSessionFactory().openSession();
-			seted.beginTransaction();
-			
-			Query queryLseted = seted.createQuery("FROM EntradaDinheiro WHERE dataEntradaFimDia = :dataEntradaFimDia ORDER BY idEntradaDinheiro ASC");
-			queryLseted.setParameter("dataEntradaFimDia", dataEntradaFimDia);
-			
-			List<EntradaDinheiro> entradasDinheiro = queryLseted.getResultList();
-			seted.getTransaction().commit();
-			seted.close();
-			return entradasDinheiro;
-		}
-		return null;
+	public List<EntradaDinheiro> encontrarTodasEntradasDinheiro(Calendar dataInicial, Calendar dataFinal) {
+		Session seted = Sessao.getSessionFactory().openSession();
+		seted.beginTransaction();
+		
+		Query queryLseted = seted.createQuery("FROM EntradaDinheiro WHERE dataInicial >= :dataInicial AND dataFinal <= :dataFinal ORDER BY idEntradaDinheiro ASC");
+		queryLseted.setParameter("dataInicial", dataInicial);
+		queryLseted.setParameter("dataFinal", dataFinal);
+		
+		List<EntradaDinheiro> entradasDinheiro = queryLseted.getResultList();
+		seted.getTransaction().commit();
+		seted.close();
+		return entradasDinheiro;
 	}
 
 	@Override
@@ -99,5 +100,6 @@ public class EntradaDinheiroServico implements IEntradaDinheiro {
 		}
 		return false;
 	}
+
 
 }

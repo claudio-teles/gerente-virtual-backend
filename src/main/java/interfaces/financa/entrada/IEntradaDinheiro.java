@@ -10,8 +10,8 @@ public interface IEntradaDinheiro {
 	
 	public Serializable criarEntradaDinheiro(EntradaDinheiro entradaDinheiro);
 	public EntradaDinheiro encontrarEntradaDinheiro(Long idEntradaDinheiro);
-	public List<EntradaDinheiro> encontrarTodasEntradasDinheiro();
-	public List<EntradaDinheiro> encontrarTodasEntradasDinheiro(Calendar dataEntradaFimDia);
+	public List<EntradaDinheiro> encontrarTodasEntradasDinheiroPaginacao(Integer inicio, Integer maximo);
+	public List<EntradaDinheiro> encontrarTodasEntradasDinheiro(Calendar dataInicial, Calendar dataFinal);
 	public Boolean atualizarEntradaDinheiro(EntradaDinheiro entradaDinheiro);
 	public Boolean deletarEntradaDinheiro(EntradaDinheiro entradaDinheiro);
 
