@@ -52,6 +52,7 @@ public class CompraServico implements ICompra {
 		return compras;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Compra> listarTodasCompras(Calendar dataCompra) {
 		Session sltc = Sessao.getSessionFactory().openSession();
@@ -59,7 +60,7 @@ public class CompraServico implements ICompra {
 		
 		Query queryLtc = sltc.createQuery("FROM Compra WHERE dataCompra = :dataCompra ORDER BY idCompra ASC");
 		queryLtc.setParameter("dataCompra", dataCompra);
-		@SuppressWarnings("unchecked")
+		
 		List<Compra> compras = queryLtc.getResultList();
 		
 		sltc.getTransaction().commit();

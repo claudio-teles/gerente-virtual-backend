@@ -13,6 +13,6 @@ public interface IEntradaDinheiro {
 	public List<EntradaDinheiro> encontrarTodasEntradasDinheiro();
 	public List<EntradaDinheiro> encontrarTodasEntradasDinheiro(Calendar dataEntradaFimDia);
 	public Boolean atualizarEntradaDinheiro(EntradaDinheiro entradaDinheiro);
-	public Boolean deletaarEntradaDinheiro(EntradaDinheiro entradaDinheiro);
+	public Boolean deletarEntradaDinheiro(EntradaDinheiro entradaDinheiro);
 
 }

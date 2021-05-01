@@ -86,7 +86,7 @@ public class EntradaDinheiroServico implements IEntradaDinheiro {
 	}
 
 	@Override
-	public Boolean deletaarEntradaDinheiro(EntradaDinheiro entradaDinheiro) {
+	public Boolean deletarEntradaDinheiro(EntradaDinheiro entradaDinheiro) {
 		if (entradaDinheiro.getIdEntradaDinheiro() != null) {
 			Session sded = Sessao.getSessionFactory().openSession();
 			sded.beginTransaction();
