@@ -121,6 +121,40 @@ public class OutroServico implements IOutro {
 		return outros;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public List<Outro> encontrarTodosNome() {
+		Session stn = Sessao.getSessionFactory().openSession();
+		stn.beginTransaction();
+		
+		Query queryLstn = stn.createQuery(
+				"FROM Outro ORDER BY idOutro ASC");
+		
+		List<Outro> outros = queryLstn.getResultList();
+		
+		stn.getTransaction().commit();
+		stn.close();
+		return outros;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public List<Outro> encontrarTodosPaginacao(Integer inicio, Integer maximo) {
+		Session stn = Sessao.getSessionFactory().openSession();
+		stn.beginTransaction();
+		
+		Query queryLstn = stn.createQuery(
+				"FROM Outro ORDER BY idOutro ASC");
+		queryLstn.setFirstResult(inicio);
+		queryLstn.setMaxResults(maximo);
+		
+		List<Outro> outros = queryLstn.getResultList();
+		
+		stn.getTransaction().commit();
+		stn.close();
+		return outros;
+	}
+
 	@Override
 	public Boolean atualizar(Outro outro) {
 		if (outro.getIdOutro() != null) {
