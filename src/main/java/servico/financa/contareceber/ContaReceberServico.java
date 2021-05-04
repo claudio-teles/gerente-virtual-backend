@@ -4,112 +4,51 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.persistence.Query;
-
-import org.hibernate.Session;
-
-import main.java.interfaces.financa.contareceber.IContaReceber;
+import main.java.dao.financa.contareceber.ContaReceberDAO;
 import main.java.modelo.financa.contareceber.ContaReceber;
-import main.java.sessao.Sessao;
 
-public class ContaReceberServico implements IContaReceber {
+public class ContaReceberServico {
+	
+	private ContaReceberDAO contaReceberDAO = new ContaReceberDAO();
 
-	@Override
 	public Serializable criarContaReceber(ContaReceber contaReceber) {
-		Session sCcr = Sessao.getSessionFactory().openSession();
-		sCcr.beginTransaction();
-		
-		Serializable scr = sCcr.save(contaReceber);
-		
-		sCcr.getTransaction().commit();
-		sCcr.close();
-		return scr;
+		if (contaReceber != null) {
+			return contaReceberDAO.criarContaReceber(contaReceber);
+		}
+		return null;
 	}
 
-	@Override
 	public ContaReceber encontrarContaReceber(Long idContaReceber) {
-		Session secr = Sessao.getSessionFactory().openSession();
-		secr.beginTransaction();
-		
-		ContaReceber contaReceber = secr.find(ContaReceber.class, idContaReceber);
-		
-		secr.getTransaction().commit();
-		secr.close();
-		return contaReceber;
+		if (idContaReceber != null) {
+			return contaReceberDAO.encontrarContaReceber(idContaReceber);
+		}
+		return null;
 	}
 
-	@Override
 	public ContaReceber encontrarContaReceberIdVenda(Long idVenda) {
-		Session secr= Sessao.getSessionFactory().openSession();
-		secr.beginTransaction();
-		
-		Query queryLsecr = secr.createQuery("FROM ContaReceber WHERE idVenda = :idVenda");
-		queryLsecr.setParameter("idVenda", idVenda);
-		
-		ContaReceber contaReceber = (ContaReceber) queryLsecr.getSingleResult();
-		
-		
-		secr.getTransaction().commit();
-		secr.close();
-		return contaReceber;
+		if (idVenda != null) {
+			return contaReceberDAO.encontrarContaReceberIdVenda(idVenda);
+		}
+		return null;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
 	public List<ContaReceber> encontrarContasReceber() {
-		Session secr= Sessao.getSessionFactory().openSession();
-		secr.beginTransaction();
-		
-		Query queryLsecr = secr.createQuery("FROM ContaReceber ORDER BY idContaReceber ASC");
-		List<ContaReceber> contasReceber = queryLsecr.getResultList();
-		
-		secr.getTransaction().commit();
-		secr.close();
-		return contasReceber;
+		return contaReceberDAO.encontrarContasReceber();
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
 	public List<ContaReceber> encontrarContasReceber(Calendar dataRecebimento) {
-		Session secr= Sessao.getSessionFactory().openSession();
-		secr.beginTransaction();
-		
-		Query queryLsecr = secr.createQuery("FROM ContaReceber WHERE dataRecebimento = :dataRecebimento ORDER BY idContaReceber ASC");
-		List<ContaReceber> contasReceber = queryLsecr.getResultList();
-		
-		secr.getTransaction().commit();
-		secr.close();
-		return contasReceber;
+		if (dataRecebimento != null) {
+			return contaReceberDAO.encontrarContasReceber(dataRecebimento);
+		}
+		return null;
 	}
 
-	@Override
 	public Boolean atualizarContasReceber(ContaReceber contaReceber) {
-		if (contaReceber.getIdContaReceber() != null) {
-			Session sacr = Sessao.getSessionFactory().openSession();
-			sacr.beginTransaction();
-			
-			sacr.saveOrUpdate(contaReceber);
-			
-			sacr.getTransaction().commit();
-			sacr.close();
-			return true;
-		}
-		return false;
+		return contaReceberDAO.atualizarContasReceber(contaReceber);
 	}
 
-	@Override
 	public Boolean deletarContasReceber(ContaReceber contaReceber) {
-		if (contaReceber.getIdContaReceber() != null) {
-			Session sdcr = Sessao.getSessionFactory().openSession();
-			sdcr.beginTransaction();
-			
-			sdcr.delete(contaReceber);
-			
-			sdcr.getTransaction().commit();
-			sdcr.close();
-			return true;
-		}
-		return false;
+		return contaReceberDAO.deletarContasReceber(contaReceber);
 	}
 
 }

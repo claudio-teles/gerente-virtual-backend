@@ -3,116 +3,51 @@ package main.java.servico.identificacao;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Query;
-
-import org.hibernate.Session;
-
-import main.java.interfaces.config.I_Identificacao;
+import main.java.dao.identificacao.IdentificacaoDAO;
 import main.java.modelo.identificacao.Identificacao;
-import main.java.sessao.Sessao;
 
-public class IdentificacaoServico implements I_Identificacao {
+public class IdentificacaoServico {
+	
+	private IdentificacaoDAO identificacaoDAO = new IdentificacaoDAO();
 
-	@Override
 	public Serializable criarIdentificacao(Identificacao identificacao) {
-		Session sIdent = Sessao.getSessionFactory().openSession();
-		sIdent.beginTransaction();
-		
-		Serializable si = sIdent.save(identificacao);
-		
-		sIdent.getTransaction().commit();
-		sIdent.close();
-		return si;
+		if (identificacao != null) {
+			return identificacaoDAO.criarIdentificacao(identificacao);
+		}
+		return null;
 	}
 
-	@Override
 	public Identificacao encontrarIdentificacao(Long idIdentificacao) {
-		Session sI = Sessao.getSessionFactory().openSession();
-		sI.beginTransaction();
-		
-		Identificacao identificacao = sI.find(Identificacao.class, idIdentificacao);
-		
-		sI.getTransaction().commit();
-		sI.close();
-		return identificacao;
+		if (idIdentificacao != null) {
+			return identificacaoDAO.encontrarIdentificacao(idIdentificacao);
+		}
+		return null;
 	}
 
-	@Override
 	public Identificacao encontrarIdentificacaoCnpj(String cnpj) {
 		if ( !(cnpj.equals("") && cnpj.equals(null)) ) {
-			Session sid = Sessao.getSessionFactory().openSession();
-			sid.beginTransaction();
-			Query queryLsid = sid.createQuery("FROM Identificacao WHERE cnpj = :cnpj");
-			queryLsid.setParameter("cnpj", cnpj);
-			
-			Identificacao identificacao = (Identificacao) queryLsid.getSingleResult();
-			
-			sid.getTransaction().commit();
-			sid.close();
-			return identificacao;
+			return identificacaoDAO.encontrarIdentificacaoCnpj(cnpj);
 		}
 		return null;
 	}
 
-	@Override
 	public Identificacao encontrarIdentificacaoCpf(String cpf) {
 		if ( !(cpf.equals("") && cpf.equals(null)) ) {
-			Session sid = Sessao.getSessionFactory().openSession();
-			sid.beginTransaction();
-			Query queryLsid = sid.createQuery("FROM Identificacao WHERE cpf = :cpf");
-			queryLsid.setParameter("cpf", cpf);
-			
-			Identificacao identificacao = (Identificacao) queryLsid.getSingleResult();
-			
-			sid.getTransaction().commit();
-			sid.close();
-			return identificacao;
+			return identificacaoDAO.encontrarIdentificacaoCpf(cpf);
 		}
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
 	public List<Identificacao> encontrarTodasIdentificacao() {
-		Session sid = Sessao.getSessionFactory().openSession();
-		sid.beginTransaction();
-		
-		Query queryLsid = sid.createQuery("FROM Identificacao ORDER BY idIdentificacao ASC");
-		List<Identificacao> identificacoes = queryLsid.getResultList();
-		
-		sid.getTransaction().commit();
-		sid.close();
-		return identificacoes;
+		return identificacaoDAO.encontrarTodasIdentificacao();
 	}
 
-	@Override
 	public Boolean atualizarIdentificacao(Identificacao identificacao) {
-		if (identificacao.getIdIdentificacao() != null) {
-			Session sI = Sessao.getSessionFactory().openSession();
-			sI.beginTransaction();
-			
-			sI.saveOrUpdate(identificacao);
-			
-			sI.getTransaction().commit();
-			sI.close();
-			return true;
-		}
-		return false;
+		return identificacaoDAO.atualizarIdentificacao(identificacao);
 	}
 
-	@Override
 	public Boolean deletarIdentificacao(Identificacao identificacao) {
-		if (identificacao.getIdIdentificacao() != null) {
-			Session sI = Sessao.getSessionFactory().openSession();
-			sI.beginTransaction();
-			
-			sI.delete(identificacao);
-			
-			sI.getTransaction().commit();
-			sI.close();
-			return true;
-		}
-		return false;
+		return identificacaoDAO.deletarIdentificacao(identificacao);
 	}
 
 }

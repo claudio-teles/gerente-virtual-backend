@@ -3,83 +3,37 @@ package main.java.servico.vendedor;
 import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.query.Query;
-
-import main.java.interfaces.vendedor.IVendedor;
+import main.java.dao.vendedor.VendedorDAO;
 import main.java.modelo.vendedor.Vendedor;
-import main.java.sessao.Sessao;
 
-public class VendedorServico implements IVendedor {
+public class VendedorServico {
+	
+	private VendedorDAO vendedorDAO = new VendedorDAO();
 
-	@Override
 	public Serializable criarVendedor(Vendedor vendedor) {
-		Session scv = Sessao.getSessionFactory().openSession();
-		scv.beginTransaction();
-		
-		Serializable sCv = scv.save(vendedor);
-		
-		scv.getTransaction().commit();
-		scv.close();
-		return sCv;
+		if (vendedor != null) {
+			return vendedorDAO.criarVendedor(vendedor);
+		}
+		return null;
 	}
 
-	@Override
 	public Vendedor encontrarVendedor(Long idVendedor) {
-		Session sv = Sessao.getSessionFactory().openSession();
-		sv.beginTransaction();
-		
-		Vendedor vendedor = sv.find(Vendedor.class, idVendedor);
-		
-		sv.getTransaction().commit();
-		sv.close();
-		return vendedor;
+		if (idVendedor != null) {
+			return vendedorDAO.encontrarVendedor(idVendedor);
+		}
+		return null;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
 	public List<Vendedor> encontrarVendedores() {
-		Session sev = Sessao.getSessionFactory().openSession();
-		sev.beginTransaction();
-		
-		Query querysev = sev.createQuery(
-				"FROM Vendedor ORDER BY idVendedor ASC");
-		
-		List<Vendedor> vendedores =  querysev.getResultList();
-		
-		sev.getTransaction().commit();
-		sev.close();
-		return vendedores;
+		return vendedorDAO.encontrarVendedores();
 	}
 
-	@Override
 	public Boolean atualizar(Vendedor vendedor) {
-		if (vendedor.getIdVendedor() != null) {
-			Session sav = Sessao.getSessionFactory().openSession();
-			sav.beginTransaction();
-			
-			sav.saveOrUpdate(vendedor);
-			
-			sav.getTransaction().commit();
-			sav.close();
-			return true;
-		}
-		return false;
+		return vendedorDAO.atualizar(vendedor);
 	}
 
-	@Override
 	public Boolean deletar(Vendedor vendedor) {
-		if (vendedor.getIdVendedor() != null) {
-			Session sdv = Sessao.getSessionFactory().openSession();
-			sdv.beginTransaction();
-			
-			sdv.delete(vendedor);
-			
-			sdv.getTransaction().commit();
-			sdv.close();
-			return true;
-		}
-		return false;
+		return vendedorDAO.deletar(vendedor);
 	}
 
 }

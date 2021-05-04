@@ -2,173 +2,65 @@ package main.java.servico.mercadoria;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-
-import org.hibernate.Session;
-import org.hibernate.query.Query;
-
-import main.java.interfaces.mercadoria.IMercadoria;
+import main.java.dao.mercadoria.MercadoriaDAO;
 import main.java.modelo.mercadoria.Mercadoria;
-import main.java.sessao.Sessao;
 
-public class MercadoriaServico implements IMercadoria {
+public class MercadoriaServico {
+	
+	private MercadoriaDAO mercadoriaDAO = new MercadoriaDAO();
 
-	@Override
 	public Serializable criarMercadoria(Mercadoria mercadoria) {
-		Session sessionMercadoria = Sessao.getSessionFactory().openSession();
-		sessionMercadoria.beginTransaction();
-		
-		Serializable sm = sessionMercadoria.save(mercadoria);
-		
-		sessionMercadoria.getTransaction().commit();
-		sessionMercadoria.close();
-		return sm;
-	}
-
-	@Override
-	public Mercadoria encontrarMercadoria(Long idMercadoria) {
-		Session sM = Sessao.getSessionFactory().openSession();
-		sM.beginTransaction();
-		
-		Mercadoria mercadoria = sM.find(Mercadoria.class, idMercadoria);
-		
-		sM.getTransaction().commit();
-		sM.close();
-		return mercadoria;
-	}
-
-	@Override
-	public Set<Mercadoria> encontrarTodasMercadorias() {
-		Session sEtm = Sessao.getSessionFactory().openSession();
-		sEtm.beginTransaction();
-		
-		CriteriaBuilder builder = sEtm.getCriteriaBuilder();
-		CriteriaQuery<Mercadoria> query = builder.createQuery(Mercadoria.class);
-		Root<Mercadoria> root = query.from(Mercadoria.class);
-		query.select(root).orderBy(builder.asc(root.get("idMercadoria")));
-		Query<Mercadoria> q = sEtm.createQuery(query);
-		List<Mercadoria> list = q.getResultList();
-		
-		Set<Mercadoria> mercadorias = new HashSet<>();
-		
-		list.forEach(mercadoria -> {
-			mercadorias.add(mercadoria);
-		});
-		
-		sEtm.getTransaction().commit();
-		sEtm.close();
-		return mercadorias;
-	}
-
-	@Override
-	public String atualizarMercadoria(Mercadoria mercadoria) {
 		if (mercadoria != null) {
-			Session sAm = Sessao.getSessionFactory().openSession();
-			sAm.beginTransaction();
-			
-			sAm.saveOrUpdate(mercadoria);
-			
-			sAm.getTransaction().commit();
-			sAm.close();
-			return "Atualizou! ";
+			return mercadoriaDAO.criarMercadoria(mercadoria);
 		}
-		return "Não atualizou! ";
+		return null;
 	}
 
-	@SuppressWarnings("rawtypes")
-	@Override
+	public Mercadoria encontrarMercadoria(Long idMercadoria) {
+		if (idMercadoria != null) {
+			return mercadoriaDAO.encontrarMercadoria(idMercadoria);
+		}
+		return null;
+	}
+
+	public Set<Mercadoria> encontrarTodasMercadorias() {
+		return mercadoriaDAO.encontrarTodasMercadorias();
+	}
+
+	public String atualizarMercadoria(Mercadoria mercadoria) {
+		return mercadoriaDAO.atualizarMercadoria(mercadoria);
+	}
+
 	public Mercadoria encontrarMercadoriaCodBarra(String codigoBarraMercadoria) {
 		if ( !(codigoBarraMercadoria.equals("") && codigoBarraMercadoria.equals(null)) ) {
-			Session sem = Sessao.getSessionFactory().openSession();
-			sem.beginTransaction();
-			
-			Query querysem = sem.createQuery("FROM Mercadoria WHERE codigoBarraMercadoria = :codigoBarraMercadoria");
-			querysem.setParameter("codigoBarraMercadoria", codigoBarraMercadoria);
-			
-			Mercadoria mercadoria = (Mercadoria) querysem.getSingleResult();
-			
-			sem.getTransaction().commit();
-			sem.close();
-			return mercadoria;
+			return mercadoriaDAO.encontrarMercadoriaCodBarra(codigoBarraMercadoria);
 		}
 		return null;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
 	public List<Mercadoria> listarMercadoriasDataAquisicao(Calendar dataAquisicaoMercadoria) {
 		if ( !(dataAquisicaoMercadoria.equals(null)) ) {
-			Session slmd = Sessao.getSessionFactory().openSession();
-			slmd.beginTransaction();
-			
-			Query queryLslmd = slmd.createQuery(
-					"FROM Mercadoria WHERE dataAquisicaoMercadoria = :dataAquisicaoMercadoria ORDER BY idMercadoria ASC");
-			queryLslmd.setParameter("dataAquisicaoMercadoria", dataAquisicaoMercadoria);
-			
-			List<Mercadoria> mercadorias = queryLslmd.getResultList();
-			
-			slmd.getTransaction().commit();
-			slmd.close();
-			return mercadorias;
+			return mercadoriaDAO.listarMercadoriasDataAquisicao(dataAquisicaoMercadoria);
 		}
 		return null;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
 	public List<Mercadoria> listarMercadoriasDataVencimento(Calendar dataVencimentoMercadoria) {
 		if ( !(dataVencimentoMercadoria.equals(null)) ) {
-			Session slmd = Sessao.getSessionFactory().openSession();
-			slmd.beginTransaction();
-			
-			Query queryLslmd = slmd.createQuery(
-					"FROM Mercadoria WHERE dataVencimentoMercadoria = :dataVencimentoMercadoria ORDER BY idMercadoria ASC");
-			queryLslmd.setParameter("dataVencimentoMercadoria", dataVencimentoMercadoria);
-			
-			List<Mercadoria> mercadorias = queryLslmd.getResultList();
-			
-			slmd.getTransaction().commit();
-			slmd.close();
-			return mercadorias;
+			return mercadoriaDAO.listarMercadoriasDataVencimento(dataVencimentoMercadoria);
 		}
 		return null;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
 	public List<Mercadoria> listarMercadorias() {
-		Session slmd = Sessao.getSessionFactory().openSession();
-		slmd.beginTransaction();
-		
-		Query queryLslmd = slmd.createQuery(
-				"FROM Mercadoria ORDER BY idMercadoria ASC");
-		
-		List<Mercadoria> mercadorias = queryLslmd.getResultList();
-		
-		slmd.getTransaction().commit();
-		slmd.close();
-		return mercadorias;
+		return mercadoriaDAO.listarMercadorias();
 	}
 
-	@Override
 	public Boolean deletarMercadoria(Mercadoria mercadoria) {
-		if (mercadoria.getIdMercadoria() != null) {
-			Session sM = Sessao.getSessionFactory().openSession();
-			sM.beginTransaction();
-			
-			sM.delete(mercadoria);
-			
-			sM.getTransaction().commit();
-			sM.close();
-			return true;
-		}
-		return false;
+		return mercadoriaDAO.deletarMercadoria(mercadoria);
 	}
 
 }

@@ -2,51 +2,29 @@ package main.java.servico.manutencao;
 
 import java.io.Serializable;
 
-import org.hibernate.Session;
-
-import main.java.interfaces.manutencao.IManutencao;
+import main.java.dao.manutencao.EstoqueManutencaoDAO;
 import main.java.modelo.estoque.manutencao.EstoqueManutencao;
-import main.java.sessao.Sessao;
 
-public class EstoqueManutencaoServico implements IManutencao {
+public class EstoqueManutencaoServico {
+	
+	private EstoqueManutencaoDAO estoqueManutencaoDAO = new EstoqueManutencaoDAO();
 
-	@Override
 	public Serializable criarEstoqueManutencao(EstoqueManutencao estoqueManutencao) {
-		Session cem = Sessao.getSessionFactory().openSession();
-		cem.beginTransaction();
-		
-		Serializable cM = cem.save(estoqueManutencao);
-		
-		cem.getTransaction().commit();
-		cem.close();
-		return cM;
-	}
-
-	@Override
-	public EstoqueManutencao encontrarEstoqueManutencao(Long idEstoqueManutencao) {
-		Session cm = Sessao.getSessionFactory().openSession();
-		cm.beginTransaction();
-		
-		EstoqueManutencao estoqueManutencao = cm.find(EstoqueManutencao.class, idEstoqueManutencao);
-		
-		cm.getTransaction().commit();
-		cm.close();
-		return estoqueManutencao;
-	}
-
-	@Override
-	public Boolean deletarEstoqueManutencao(EstoqueManutencao estoqueManutencao) {
-		if (estoqueManutencao.getIdEstoqueManutencao() != null) {
-			Session sdem = Sessao.getSessionFactory().openSession();
-			sdem.beginTransaction();
-			
-			sdem.delete(estoqueManutencao);
-			
-			sdem.getTransaction().commit();
-			sdem.close();
-			return false;
+		if (estoqueManutencao  != null) {
+			return estoqueManutencaoDAO.criarEstoqueManutencao(estoqueManutencao);
 		}
-		return false;
+		return null;
+	}
+
+	public EstoqueManutencao encontrarEstoqueManutencao(Long idEstoqueManutencao) {
+		if (idEstoqueManutencao != null) {
+			return estoqueManutencaoDAO.encontrarEstoqueManutencao(idEstoqueManutencao);
+		}
+		return null;
+	}
+
+	public Boolean deletarEstoqueManutencao(EstoqueManutencao estoqueManutencao) {
+		return estoqueManutencaoDAO.deletarEstoqueManutencao(estoqueManutencao);
 	}
 
 }

@@ -873,24 +873,6 @@ class T01Tests {
 	
 	@Test
 	@Order(24)
-	void testEncontrarIdentificacao() {
-		assertEquals(22L, new ClienteServico().encontrarIdentificacao(28L).getIdIdentificacao());
-	}
-	
-	@Test
-	@Order(25)
-	void testeEncontrarEndereco() {
-		assertEquals(24L, new ClienteServico().encontrarEndereco(28L).getIdEndereco());
-	}
-	
-	@Test
-	@Order(26)
-	void testeEncontrarContato() {
-		assertEquals(26L, new ClienteServico().encontrarContato(28L).getIdContato());
-	}
-	
-	@Test
-	@Order(27)
 	void testeEncontrarClientesIntervaloInexistentexistente() {
 		List<Cliente> clientes = new ClienteServico().encontrarClientesEntre(10, 15);
 		assertEquals(0, clientes.size());

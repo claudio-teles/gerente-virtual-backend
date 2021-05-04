@@ -4,101 +4,44 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.persistence.Query;
-
-import org.hibernate.Session;
-
-import main.java.interfaces.financa.entrada.IEntradaDinheiro;
+import main.java.dao.financa.entrada.EntradaDinherioDAO;
 import main.java.modelo.financa.entrada.EntradaDinheiro;
-import main.java.sessao.Sessao;
 
-public class EntradaDinheiroServico implements IEntradaDinheiro {
+public class EntradaDinheiroServico {
+	
+	private EntradaDinherioDAO entradaDinherioDAO = new EntradaDinherioDAO();
 
-	@Override
 	public Serializable criarEntradaDinheiro(EntradaDinheiro entradaDinheiro) {
-		Session sced = Sessao.getSessionFactory().openSession();
-		sced.beginTransaction();
-		
-		Serializable sed = sced.save(entradaDinheiro);
-		
-		sced.getTransaction().commit();
-		sced.close();
-		return sed;
+		if (entradaDinheiro != null) {
+			return entradaDinherioDAO.criarEntradaDinheiro(entradaDinheiro);
+		}
+		return null;
 	}
 
-	@Override
 	public EntradaDinheiro encontrarEntradaDinheiro(Long idEntradaDinheiro) {
-		Session seed = Sessao.getSessionFactory().openSession();
-		seed.beginTransaction();
-		
-		EntradaDinheiro entradaDinheiro = seed.find(EntradaDinheiro.class, idEntradaDinheiro);
-		
-		seed.getTransaction().commit();
-		seed.close();
-		return entradaDinheiro;
+		if(idEntradaDinheiro != null) {return entradaDinherioDAO.encontrarEntradaDinheiro(idEntradaDinheiro);} else {return null;}
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
 	public List<EntradaDinheiro> encontrarTodasEntradasDinheiroPaginacao(Integer inicio, Integer maximo) {
-		Session seted = Sessao.getSessionFactory().openSession();
-		seted.beginTransaction();
-		
-		Query queryLseted = seted.createQuery("FROM EntradaDinheiro ORDER BY idEntradaDinheiro ASC");
-		queryLseted.setFirstResult(inicio);
-		queryLseted.setMaxResults(maximo);
-		
-		List<EntradaDinheiro> entradasDinheiro = queryLseted.getResultList();
-		
-		seted.getTransaction().commit();
-		seted.close();
-		return entradasDinheiro;
+		if (inicio != null && maximo != null) {
+			return entradaDinherioDAO.encontrarTodasEntradasDinheiroPaginacao(inicio, maximo);
+		}
+		return null;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
 	public List<EntradaDinheiro> encontrarTodasEntradasDinheiro(Calendar dataInicial, Calendar dataFinal) {
-		Session seted = Sessao.getSessionFactory().openSession();
-		seted.beginTransaction();
-		
-		Query queryLseted = seted.createQuery("FROM EntradaDinheiro WHERE dataInicial >= :dataInicial AND dataFinal <= :dataFinal ORDER BY idEntradaDinheiro ASC");
-		queryLseted.setParameter("dataInicial", dataInicial);
-		queryLseted.setParameter("dataFinal", dataFinal);
-		
-		List<EntradaDinheiro> entradasDinheiro = queryLseted.getResultList();
-		seted.getTransaction().commit();
-		seted.close();
-		return entradasDinheiro;
+		if (dataInicial != null && dataFinal != null) {
+			return entradaDinherioDAO.encontrarTodasEntradasDinheiro(dataInicial, dataFinal);
+		}
+		return null;
 	}
 
-	@Override
 	public Boolean atualizarEntradaDinheiro(EntradaDinheiro entradaDinheiro) {
-		if (entradaDinheiro.getIdEntradaDinheiro() != null) {
-			Session saed = Sessao.getSessionFactory().openSession();
-			saed.beginTransaction();
-			
-			saed.saveOrUpdate(entradaDinheiro);
-			
-			saed.getTransaction().commit();
-			saed.close();
-			return true;
-		}
-		return false;
+		return entradaDinherioDAO.atualizarEntradaDinheiro(entradaDinheiro);
 	}
 
-	@Override
 	public Boolean deletarEntradaDinheiro(EntradaDinheiro entradaDinheiro) {
-		if (entradaDinheiro.getIdEntradaDinheiro() != null) {
-			Session sded = Sessao.getSessionFactory().openSession();
-			sded.beginTransaction();
-			
-			sded.delete(entradaDinheiro);
-			
-			sded.getTransaction().commit();
-			sded.close();
-			return true;
-		}
-		return false;
+		return entradaDinherioDAO.deletarEntradaDinheiro(entradaDinheiro);
 	}
 
 

@@ -3,100 +3,44 @@ package main.java.servico.tecnico;
 import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.query.Query;
-
-import main.java.interfaces.tecnico.ITecnico;
+import main.java.dao.tecnico.TecnicoDAO;
 import main.java.modelo.tecnico.Tecnico;
-import main.java.sessao.Sessao;
 
-public class TecnicoServico implements ITecnico {
+public class TecnicoServico {
+	
+	private TecnicoDAO tecnicoDAO = new TecnicoDAO();
 
-	@Override
 	public Serializable criarTecnico(Tecnico tecnico) {
-		Session sct = Sessao.getSessionFactory().openSession();
-		sct.beginTransaction();
-		
-		Serializable sC = sct.save(tecnico);
-		
-		sct.getTransaction().commit();
-		sct.close();
-		return sC;
+		if (tecnico != null) {
+			return tecnicoDAO.criarTecnico(tecnico);
+		}
+		return null;
 	}
 
-	@Override
 	public Tecnico encontrarTecnico(Long idTecnico) {
-		Session st = Sessao.getSessionFactory().openSession();
-		st.beginTransaction();
-		
-		Tecnico tecnico = st.find(Tecnico.class, idTecnico);
-		
-		st.getTransaction().commit();
-		st.close();
-		return tecnico;
+		if (idTecnico != null) {
+			return tecnicoDAO.encontrarTecnico(idTecnico);
+		}
+		return null;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
 	public List<Tecnico> encontrarTecnicos() {
-		Session set = Sessao.getSessionFactory().openSession();
-		set.beginTransaction();
-		
-		Query queryset = set.createQuery(
-				"FROM Tecnico ORDER BY idTecnico ASC");
-		
-		List<Tecnico> tecnicos =  queryset.getResultList();
-		
-		set.getTransaction().commit();
-		set.close();
-		return tecnicos;
+		return tecnicoDAO.encontrarTecnicos();
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
 	public List<Tecnico> encontrarTecnicos(String areaEspecializacao) {
-		Session set = Sessao.getSessionFactory().openSession();
-		set.beginTransaction();
-		
-		Query queryset = set.createQuery(
-				"FROM Tecnico WHERE areaEspecializacao LIKE :areaEspecializacao ORDER BY idTecnico ASC");
-		queryset.setParameter("areaEspecializacao", "%"+areaEspecializacao.toLowerCase()+"%");
-		
-		List<Tecnico> tecnicos =  queryset.getResultList();
-		
-		set.getTransaction().commit();
-		set.close();
-		return tecnicos;
+		if ( !(areaEspecializacao.equals("") || areaEspecializacao.equals(null)) ) {
+			return tecnicoDAO.encontrarTecnicos(areaEspecializacao);
+		}
+		return null;
 	}
 
-	@Override
 	public Boolean atualizar(Tecnico tecnico) {
-		if (tecnico.getIdTecnico() != null) {
-			Session sat = Sessao.getSessionFactory().openSession();
-			sat.beginTransaction();
-			
-			sat.saveOrUpdate(tecnico);
-			
-			sat.getTransaction().commit();
-			sat.close();
-			return true;
-		}
-		return false;
+		return tecnicoDAO.atualizar(tecnico);
 	}
 
-	@Override
 	public Boolean deletar(Tecnico tecnico) {
-		if (tecnico.getIdTecnico() != null) {
-			Session sdt = Sessao.getSessionFactory().openSession();
-			sdt.beginTransaction();
-			
-			sdt.delete(tecnico);
-			
-			sdt.getTransaction().commit();
-			sdt.close();
-			return true;
-		}
-		return false;
+		return tecnicoDAO.deletar(tecnico);
 	}
 
 }
