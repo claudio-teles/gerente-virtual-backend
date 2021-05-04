@@ -1,11 +1,9 @@
 package main.java.servico.cobrado;
 
 import java.io.Serializable;
-import java.util.List;
 
 import main.java.dao.cobrado.CobradoManutencaoDAO;
 import main.java.modelo.cobrado.CobradoManutencao;
-import main.java.modelo.estoque.manutencao.EstoqueManutencao;
 
 public class CobradoManutencaoServico {
 	
@@ -25,16 +23,12 @@ public class CobradoManutencaoServico {
 		return null;
 	}
 
-	public List<EstoqueManutencao> encotrarTodosEstoqueManutencao() {
-		return cobradoManutencaoDAO.encotrarTodosEstoqueManutencao();
+	public Boolean atualizarEstoqueManutencao(CobradoManutencao cobradoManutencao) {
+		return cobradoManutencaoDAO.atualizarEstoqueManutencao(cobradoManutencao);
 	}
 
-	public Boolean atualizarEstoqueManutencao(EstoqueManutencao estoqueManutencao) {
-		return cobradoManutencaoDAO.atualizarEstoqueManutencao(estoqueManutencao);
-	}
-
-	public Boolean deletarEstoqueManutencao(EstoqueManutencao estoqueManutencao) {
-		return cobradoManutencaoDAO.deletarEstoqueManutencao(estoqueManutencao);
+	public Boolean deletarEstoqueManutencao(CobradoManutencao cobradoManutencao) {
+		return cobradoManutencaoDAO.deletarEstoqueManutencao(cobradoManutencao);
 	}
 
 }

@@ -1,16 +1,11 @@
 package main.java.dao.cobrado;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Query;
 
 import org.hibernate.Session;
 
 import main.java.interfaces.consertomanutencao.IManutencao;
 import main.java.modelo.cobrado.CobradoManutencao;
-import main.java.modelo.estoque.manutencao.EstoqueManutencao;
 import main.java.sessao.Sessao;
 
 public class CobradoManutencaoDAO implements IManutencao {
@@ -39,29 +34,13 @@ public class CobradoManutencaoDAO implements IManutencao {
 		return itemCobradoManutencao;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<EstoqueManutencao> encotrarTodosEstoqueManutencao() {
-		Session sencontrarEM = Sessao.getSessionFactory().openSession();
-		sencontrarEM.beginTransaction();
-		
-		Query queryEM = sencontrarEM.createQuery("FROM EstoqueManutencao ORDER BY idEstoqueManutencao ASC");
-		
-		List<EstoqueManutencao> estoquesManutencao = new ArrayList<>();
-		estoquesManutencao = queryEM.getResultList();
-		
-		sencontrarEM.getTransaction().commit();
-		sencontrarEM.close();
-		return estoquesManutencao;
-	}
-
-	@Override
-	public Boolean atualizarEstoqueManutencao(EstoqueManutencao estoqueManutencao) {
-		if (estoqueManutencao.getIdEstoqueManutencao() != null) {
+	public Boolean atualizarEstoqueManutencao(CobradoManutencao cobradoManutencao) {
+		if (cobradoManutencao != null) {
 			Session sessionAtualizarEM = Sessao.getSessionFactory().openSession();
 			sessionAtualizarEM.beginTransaction();
 			
-			sessionAtualizarEM.saveOrUpdate(estoqueManutencao);
+			sessionAtualizarEM.saveOrUpdate(cobradoManutencao);
 			
 			sessionAtualizarEM.getTransaction().commit();
 			sessionAtualizarEM.close();
@@ -71,12 +50,12 @@ public class CobradoManutencaoDAO implements IManutencao {
 	}
 
 	@Override
-	public Boolean deletarEstoqueManutencao(EstoqueManutencao estoqueManutencao) {
-		if (estoqueManutencao.getIdEstoqueManutencao() != null) {
+	public Boolean deletarEstoqueManutencao(CobradoManutencao cobradoManutencao) {
+		if (cobradoManutencao != null) {
 			Session sessionDeletarEM = Sessao.getSessionFactory().openSession();
 			sessionDeletarEM.beginTransaction();
 			
-			sessionDeletarEM.delete(estoqueManutencao);
+			sessionDeletarEM.delete(cobradoManutencao);
 			
 			sessionDeletarEM.getTransaction().commit();
 			sessionDeletarEM.close();
